@@ -1,5 +1,6 @@
 .sbtserver
 .sbtserver.lock
+.credential
 
 /node_modules
 /RUNNING_PID
