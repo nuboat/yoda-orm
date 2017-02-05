@@ -1,0 +1,28 @@
+<configuration>
+
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%coloredLevel - %logger - %message%n%xException</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="controllers.api" level="DEBUG"/>
+    <logger name="controllers.forgetpass" level="DEBUG"/>
+    <logger name="actors" level="DEBUG"/>
+    <logger name="definitions" level="DEBUG"/>
+    <logger name="entities" level="DEBUG"/>
+    <logger name="facades" level="DEBUG"/>
+    <logger name="handlers" level="DEBUG"/>
+    <logger name="models" level="DEBUG"/>
+    <logger name="persists" level="DEBUG"/>
+    <logger name="services" level="DEBUG"/>
+    <logger name="utils" level="DEBUG"/>
+    <logger name="views" level="DEBUG"/>
+
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
