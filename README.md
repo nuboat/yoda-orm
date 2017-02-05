@@ -7,7 +7,7 @@ BTW, This project is completely opensource and feel free to PR (with readabilty 
 
 Compare PreparedStatement and PStatement
  
-JAVA
+PrepareStatement
 ```
     val preparedStatement = conn.prepareStatement(FIND)
     preparedStatement.setLong(1, id)
@@ -20,10 +20,10 @@ JAVA
         , rs.getString(2)
         , rs.getTimeStamp(3))
 ```
- 
-SCALA
+
+PStatement
 ```
-    val (id1, status1, yesterday1) = PStatement(FIND)
+    val result = PStatement(FIND)
       .setLong(id)
       .setString(status)
       .setDateTime(yesterday)
