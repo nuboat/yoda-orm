@@ -10,47 +10,65 @@ import org.joda.time.DateTime
   */
 case class PStatement(sql: String)(implicit conn: Connection) {
 
-  private var next: Int = 1
+  private var counter: Int = 1
 
   private val pstmt = conn.prepareStatement(sql)
 
-  def setBoolean(param: Boolean): PStatement = setBoolean(next, param)
+  def setBoolean(param: Boolean): PStatement = setBoolean(counter, param)
 
   def setBoolean(ind: Int, param: Boolean): PStatement = {
     pstmt.setBoolean(ind, param)
-    nextParam
+    count
   }
 
-  def setLong(param: Long): PStatement = setLong(next, param)
+  def setInt(param: Int): PStatement = setInt(counter, param)
+
+  def setInt(ind: Int, param: Int): PStatement = {
+    pstmt.setInt(ind, param)
+    count
+  }
+
+  def setLong(param: Long): PStatement = setLong(counter, param)
 
   def setLong(ind: Int, param: Long): PStatement = {
     pstmt.setLong(ind, param)
-    nextParam
+    count
   }
 
-  def setString(param: String): PStatement = setString(next, param)
+  def setDouble(param: Double): PStatement = setDouble(counter, param)
+
+  def setDouble(ind: Int, param: Double): PStatement = {
+    pstmt.setDouble(ind, param)
+    count
+  }
+
+  def setString(param: String): PStatement = setString(counter, param)
 
   def setString(ind: Int, param: String): PStatement = {
     pstmt.setString(ind, param)
-    nextParam
+    count
   }
 
-  def setTimestamp(param: Timestamp): PStatement = setTimestamp(next, param)
+  def setTimestamp(param: Timestamp): PStatement = setTimestamp(counter, param)
 
   def setTimestamp(ind: Int, param: Timestamp): PStatement = {
     pstmt.setTimestamp(ind, param)
-    nextParam
+    count
   }
 
-  def setDateTime(param: DateTime): PStatement = setDateTime(next, param)
+  def setDateTime(param: DateTime): PStatement = setDateTime(counter, param)
 
   def setDateTime(ind: Int, param: DateTime): PStatement = {
-    pstmt.setTimestamp(ind, new Timestamp(param.getMillis))
-    nextParam
+    if (param == null) {
+      pstmt.setTimestamp(ind, null)
+    } else {
+      pstmt.setTimestamp(ind, new Timestamp(param.getMillis))
+    }
+    count
   }
 
   def initial: PStatement = {
-    next = 1
+    counter = 1
     this
   }
 
@@ -72,6 +90,14 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     }
   }
 
+  def addBatch(): PStatement = {
+    pstmt.addBatch()
+    counter = 1
+    this
+  }
+
+  def executeBatch: Array[Int] = pstmt.executeBatch
+
   def close: PStatement = {
     pstmt.close()
     this
@@ -82,8 +108,8 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     this
   }
 
-  private def nextParam: PStatement = {
-    next = next + 1
+  private def count: PStatement = {
+    counter = counter + 1
     this
   }
 

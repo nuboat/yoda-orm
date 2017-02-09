@@ -1,11 +1,5 @@
 package java.sql;
 
-//import java.sql.Connection;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.sql.Statement;
-//import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -37,7 +31,7 @@ import java.util.*;
  *
  * @author adam_crume
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "ForLoopReplaceableByForEach"})
 public final class NamedParameterStatement {
 
     /**
@@ -111,7 +105,7 @@ public final class NamedParameterStatement {
                     c = '?'; // replace the parameter with a question mark
                     i += name.length(); // skip past the end if the parameter
 
-                    List<Integer> indexList = (List) paramMap.get(name);
+                    List<Integer> indexList = (List<Integer>) paramMap.get(name);
                     if (indexList == null) {
                         indexList = new LinkedList<>();
                         paramMap.put(name, indexList);
@@ -233,15 +227,6 @@ public final class NamedParameterStatement {
         for (int i = 0; i < indexes.length; i++) {
             statement.setTimestamp(indexes[i], value);
         }
-    }
-
-    /**
-     * Returns the underlying statement.
-     *
-     * @return the statement
-     */
-    public PreparedStatement getStatement() {
-        return statement;
     }
 
     /**

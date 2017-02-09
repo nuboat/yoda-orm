@@ -7,7 +7,7 @@ BTW, This project is completely opensource and feel free to PR (with readabilty 
 
 Compare PreparedStatement and PStatement
  
-PrepareStatement
+PrepareStatementa
 ```
     val preparedStatement = conn.prepareStatement(FIND)
     preparedStatement.setLong(1, id)
@@ -30,5 +30,5 @@ PStatement
       .queryOne(rs => (rs.getLong(1)
         , rs.getString(2)
         , rs.getTimeStamp(3))
-      )
+        )
 ```
