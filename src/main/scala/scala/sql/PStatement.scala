@@ -4,9 +4,8 @@ import java.sql.{Connection, ResultSet, Timestamp}
 
 import org.joda.time.DateTime
 
-
 /**
-  * Created by nuboat on 2/5/2017 AD.
+  * Created by nuboat on Feb 5, 2017
   */
 case class PStatement(sql: String)(implicit conn: Connection) {
 
@@ -81,13 +80,13 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     if (rs.next) Some(block(rs)) else None
   }
 
-  def queryList[A](block: ResultSet => A): Iterator[A] = {
+  def queryList[A](block: ResultSet => A): List[A] = {
     val rs = pstmt.executeQuery
     new Iterator[A] {
-      override def hasNext: Boolean = rs.next
+      override def hasNext: Boolean = rs.next()
 
       override def next: A = block(rs)
-    }
+    }.toList
   }
 
   def addBatch(): PStatement = {

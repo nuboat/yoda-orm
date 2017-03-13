@@ -29,6 +29,7 @@ PStatement
       .setDateTime(yesterday)
       .queryOne(rs => (rs.getLong(1)
         , rs.getString(2)
-        , rs.getTimeStamp(3))
-        )
+        , rs.getTimeStamp(3)
+        , rs.getDateTime(3)
+      )
 ```

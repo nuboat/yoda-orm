@@ -2,11 +2,11 @@ package scala.sql
 
 import java.sql.{DriverManager, ResultSet, Timestamp}
 
-import org.joda.time.{DateTime, DateTimeZone}
+import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
 /**
-  * Created by nuboat on 2/5/2017 AD.
+  * Created by nuboat on Feb 5, 2017
   */
 class PStatementTest extends FunSuite {
 
@@ -28,11 +28,10 @@ class PStatementTest extends FunSuite {
     conn.close()
   }
 
-  private def parse(rs: ResultSet): (Boolean, Long, String, DateTime, DateTime, Int, Timestamp) = (rs.getBoolean(1)
+  private def parse(rs: ResultSet): (Boolean, Long, String, DateTime, Int, Timestamp) = (rs.getBoolean(1)
     , rs.getLong(2)
     , rs.getString(3)
-    , new DateTime(rs.getTimestamp(4).getTime)
-    , new DateTime(rs.getTimestamp(4).getTime, DateTimeZone.forID("Asia/Bangkok"))
+    , rs.getDateTime(4)
     , rs.getInt(5)
     , rs.getTimestamp(6)
   )
