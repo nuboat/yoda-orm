@@ -6,7 +6,7 @@ That's why I wrote this wrapper class to use on my project.
 BTW, This project is completely opensource and feel free to PR (with readabilty manual)
 
 Compare PreparedStatement and PStatement
- 
+
 PrepareStatementa
 ```
     val preparedStatement = conn.prepareStatement(FIND)

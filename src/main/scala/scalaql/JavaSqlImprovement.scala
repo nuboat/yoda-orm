@@ -1,13 +1,13 @@
-package scala
+package scalaql
 
 import java.sql.{ResultSet, Timestamp}
 
 import org.joda.time.DateTime
 
 /**
-  * Created by nuboat on Feb 13, 2017
+  * Created by Peerapat A on Mar 21, 2017
   */
-package object sql {
+object JavaSqlImprovement {
 
   implicit class ResultSetImprovement(rs: ResultSet) {
 

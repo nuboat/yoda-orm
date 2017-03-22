@@ -1,15 +1,21 @@
 organization := "nuboat"
 
-name := "scala-sql"
+name := "scalaql"
 
-version := "0.4"
+version := "0.1"
 
 scalaVersion := "2.12.1"
 
 libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.9.7"
-  , "com.h2database" % "h2" % "1.4.193" % "test"
+  , "org.javassist" % "javassist" % "3.21.0-GA"
+  , "org.scala-lang" % "scala-reflect" % scalaVersion.value
+)
+
+libraryDependencies ++= Seq(
+  "com.h2database" % "h2" % "1.4.194" % "test"
   , "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+
 )
 
 crossScalaVersions := Seq("2.11.8", "2.12.1")

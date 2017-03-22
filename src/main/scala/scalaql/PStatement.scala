@@ -1,11 +1,15 @@
-package scala.sql
+package scalaql
 
 import java.sql.{Connection, ResultSet, Timestamp}
 
 import org.joda.time.DateTime
 
+import scala.reflect._
+import scala.reflect.runtime.universe._
+import scalaql.JavaSqlImprovement._
+
 /**
-  * Created by nuboat on Feb 5, 2017
+  * Created by Peerapat A on Feb 5, 2017
   */
 case class PStatement(sql: String)(implicit conn: Connection) {
 
@@ -83,9 +87,24 @@ case class PStatement(sql: String)(implicit conn: Connection) {
   def queryList[A](block: ResultSet => A): List[A] = {
     val rs = pstmt.executeQuery
     new Iterator[A] {
-      override def hasNext: Boolean = rs.next()
+      override def hasNext: Boolean = rs.next
 
       override def next: A = block(rs)
+    }.toList
+  }
+
+
+  def queryOne[A: TypeTag : ClassTag]: Option[A] = {
+    val rs = pstmt.executeQuery
+    if (rs.next) Some(autoparse[A](rs)) else None
+  }
+
+  def queryList[A: TypeTag : ClassTag]: List[A] = {
+    val rs = pstmt.executeQuery
+    new Iterator[A] {
+      override def hasNext: Boolean = rs.next
+
+      override def next: A = autoparse[A](rs)
     }.toList
   }
 
@@ -110,6 +129,25 @@ case class PStatement(sql: String)(implicit conn: Connection) {
   private def count: PStatement = {
     counter = counter + 1
     this
+  }
+
+  private def autoparse[A: TypeTag : ClassTag](rs: ResultSet): A = {
+    val kv = Accessor.methods[A]
+      .map(sym => sym.name.toString -> lookup(rs, sym))
+      .toMap
+
+    CCParser[A](kv)
+  }
+
+  private def lookup(rs: ResultSet, sym: MethodSymbol) = sym.info.toString match {
+    case "=> Boolean" => rs.getBoolean(sym.name.toString)
+    case "=> Int" => rs.getInt(sym.name.toString)
+    case "=> Long" => rs.getLong(sym.name.toString)
+    case "=> Double" => rs.getDouble(sym.name.toString)
+    case "=> String" => rs.getString(sym.name.toString)
+    case "=> java.sql.Timestamp" => rs.getTimestamp(sym.name.toString)
+    case "=> org.joda.time.DateTime" => rs.getDateTime(sym.name.toString)
+    case _ => throw new IllegalArgumentException(s"${sym.info} does not support.")
   }
 
 }
