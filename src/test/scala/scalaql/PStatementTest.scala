@@ -2,7 +2,7 @@ package scalaql
 
 import java.sql.{DriverManager, ResultSet, Timestamp}
 
-import models.People
+import models.{Foo, People}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -16,6 +16,37 @@ class PStatementTest extends FunSuite {
   Class.forName("org.h2.Driver")
 
   private implicit val conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
+
+  test("0) apply") {
+
+    val ps = PStatement("SELECT 1")(conn)
+    assert(ps !== null)
+
+    ps.equals(null)
+    ps.canEqual(null)
+    ps.hashCode
+    ps.toString
+    ps.productPrefix
+    ps.productArity
+    ps.productElement(0)
+    ps.productIterator
+    ps.copy()
+  }
+
+  test("0) query") {
+
+    PStatement("DROP TABLE IF EXISTS yoda_sql; CREATE TABLE yoda_sql (id INTEGER);")
+      .update
+
+  }
+
+  test("0) update") {
+
+    val rs = PStatement("""select 1""")
+      .query
+
+    assert(rs !== null)
+  }
 
   test("0) queryOne with non index parameter") {
 
@@ -79,6 +110,30 @@ class PStatementTest extends FunSuite {
     assert(peoples.head.id === 1)
     assert(peoples.head.name === "Peerapat")
     assert(peoples.head.born.getMillis <= DateTime.now.getMillis)
+  }
+
+  test("4) queryOne with auto Parser case lookup unsupport") {
+
+    try {
+      val peoples = PStatement("""select 1.0 as amount""")
+        .queryOne[Foo]
+    } catch {
+      case u: IllegalArgumentException => succeed
+      case _: Throwable => fail("")
+    }
+
+  }
+
+  test("5) batch") {
+
+    val insert = PStatement("INSERT INTO yoda_sql VALUES(?)")
+      .setInt(1, 1)
+      .addBatch()
+      .setInt(1, 2)
+      .addBatch()
+      .executeBatch
+
+    assert(insert.length === 2)
   }
 
   private def parse(rs: ResultSet): (Boolean, Int, Long, Double, String, DateTime, Timestamp) = (rs.getBoolean(1)

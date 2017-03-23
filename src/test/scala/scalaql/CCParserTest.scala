@@ -30,5 +30,4 @@ class CCParserTest extends FunSuite {
     assert(map("born").isInstanceOf[DateTime])
   }
 
-
 }

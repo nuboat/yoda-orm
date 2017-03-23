@@ -132,7 +132,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     case "=> String" => rs.getString(sym.name.toString)
     case "=> java.sql.Timestamp" => rs.getTimestamp(sym.name.toString)
     case "=> org.joda.time.DateTime" => rs.getDateTime(sym.name.toString)
-    case _ => null
+    case _ => throw new IllegalArgumentException(s"Unsupported Data Type")
   }
 
 }
