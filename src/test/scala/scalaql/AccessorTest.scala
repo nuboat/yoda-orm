@@ -2,7 +2,7 @@ package scalaql
 
 import java.sql.Timestamp
 
-import models.{AllType, People}
+import models.AllType
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 

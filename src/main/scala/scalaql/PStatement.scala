@@ -70,11 +70,6 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     count
   }
 
-  def initial: PStatement = {
-    counter = 1
-    this
-  }
-
   def update: Int = pstmt.executeUpdate
 
   def query: ResultSet = pstmt.executeQuery
@@ -116,16 +111,6 @@ case class PStatement(sql: String)(implicit conn: Connection) {
 
   def executeBatch: Array[Int] = pstmt.executeBatch
 
-  def close: PStatement = {
-    pstmt.close()
-    this
-  }
-
-  def cancel: PStatement = {
-    pstmt.cancel()
-    this
-  }
-
   private def count: PStatement = {
     counter = counter + 1
     this
@@ -147,7 +132,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     case "=> String" => rs.getString(sym.name.toString)
     case "=> java.sql.Timestamp" => rs.getTimestamp(sym.name.toString)
     case "=> org.joda.time.DateTime" => rs.getDateTime(sym.name.toString)
-    case _ => throw new IllegalArgumentException(s"${sym.info} does not support.")
+    case _ => null
   }
 
 }
