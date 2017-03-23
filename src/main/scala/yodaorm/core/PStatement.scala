@@ -1,4 +1,4 @@
-package scalaql
+package yodaorm.core
 
 import java.sql.{Connection, ResultSet, Timestamp}
 
@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 
 import scala.reflect._
 import scala.reflect.runtime.universe._
-import scalaql.JavaSqlImprovement._
+import yodaorm.core.JavaSqlImprovement._
 
 /**
   * Created by Peerapat A on Feb 5, 2017
@@ -124,7 +124,8 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     CCParser[A](kv)
   }
 
-  private def lookup(rs: ResultSet, sym: MethodSymbol) = sym.info.toString match {
+  // TODO: match
+  private def lookup(rs: ResultSet, sym: MethodSymbol) = sym.info.toString.replace("scala.", "") match {
     case "=> Boolean" => rs.getBoolean(sym.name.toString)
     case "=> Int" => rs.getInt(sym.name.toString)
     case "=> Long" => rs.getLong(sym.name.toString)
@@ -132,7 +133,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     case "=> String" => rs.getString(sym.name.toString)
     case "=> java.sql.Timestamp" => rs.getTimestamp(sym.name.toString)
     case "=> org.joda.time.DateTime" => rs.getDateTime(sym.name.toString)
-    case _ => throw new IllegalArgumentException(s"Unsupported Data Type")
+    case t: String => throw new IllegalArgumentException(s"Unsupported Data Type: $t")
   }
 
 }

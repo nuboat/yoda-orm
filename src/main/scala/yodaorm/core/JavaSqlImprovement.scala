@@ -1,4 +1,4 @@
-package scalaql
+package yodaorm.core
 
 import java.sql.{ResultSet, Timestamp}
 

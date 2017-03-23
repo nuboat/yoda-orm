@@ -1,8 +1,8 @@
-package scalaql
+package yodaorm.core
 
 import java.sql.Timestamp
 
-import models.AllType
+import mocks.AllType
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 

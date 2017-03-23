@@ -1,6 +1,6 @@
-package scalaql
+package yodaorm.core
 
-import models.People
+import mocks.People
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 

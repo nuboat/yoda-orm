@@ -20,4 +20,4 @@ crossScalaVersions := Seq("2.11.8", "2.12.1")
 
 publishTo := Some("Artifactory Realm" at "https://artifact.billme.in.th/artifactory/billme-public")
 
-credentials += Credentials("Artifactory Realm", "artifact.billme.in.th", "admin", "")
+credentials += Credentials("Artifactory Realm", "artifact.billme.in.th", "admin", "APAVR9e2C8yGZ3ufWfsDMG6rV6F9x5NGpDtgr")

@@ -1,4 +1,4 @@
-package models
+package mocks
 
 import org.joda.time.DateTime
 

@@ -1,12 +1,12 @@
-package scalaql
+package yodaorm.core
 
 import java.sql.{DriverManager, ResultSet, Timestamp}
 
-import models.{Foo, People}
+import mocks.{Foo, People}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
-import scalaql.JavaSqlImprovement._
+import yodaorm.core.JavaSqlImprovement._
 
 /**
   * Created by Peerapat A on Feb 5, 2017
