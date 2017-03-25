@@ -124,7 +124,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     CCParser[A](kv)
   }
 
-  // TODO: match
+  // TODO: match by instance type instead of string if possible
   private def lookup(rs: ResultSet, sym: MethodSymbol) = sym.info.toString.replace("scala.", "") match {
     case "=> Boolean" => rs.getBoolean(sym.name.toString)
     case "=> Int" => rs.getInt(sym.name.toString)

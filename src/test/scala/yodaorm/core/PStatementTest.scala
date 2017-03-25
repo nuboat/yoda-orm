@@ -84,38 +84,38 @@ class PStatementTest extends FunSuite {
 
   test("2) queryOne with auto Parser") {
 
-    val people = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
+    val people = PStatement("""select 1 as id, 'Peerapat' as fullname, now() as born;""")
       .queryOne[People]
 
     assert(people.head.id === 1)
-    assert(people.head.name === "Peerapat")
+    assert(people.head.fullName === "Peerapat")
     assert(people.head.born.getMillis <= DateTime.now.getMillis)
   }
 
   test("3) queryList with parse method") {
 
-    val peoples = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
+    val peoples = PStatement("""select 1 as id, 'Peerapat' as fullname, now() as born;""")
       .queryList(parsePeople)
 
     assert(peoples.head.id === 1)
-    assert(peoples.head.name === "Peerapat")
+    assert(peoples.head.fullName === "Peerapat")
     assert(peoples.head.born.getMillis <= DateTime.now.getMillis)
   }
 
   test("4) queryList with auto parse") {
 
-    val peoples = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
+    val peoples = PStatement("""select 1 as id, 'Peerapat' as fullname, now() as born;""")
       .queryList[People]
 
     assert(peoples.head.id === 1)
-    assert(peoples.head.name === "Peerapat")
+    assert(peoples.head.fullName === "Peerapat")
     assert(peoples.head.born.getMillis <= DateTime.now.getMillis)
   }
 
   test("4) queryOne with auto Parser case lookup unsupport") {
 
     try {
-      val peoples = PStatement("""select 1.0 as amount""")
+      PStatement("""select 1.0 as amount""")
         .queryOne[Foo]
     } catch {
       case u: IllegalArgumentException => succeed
@@ -146,7 +146,7 @@ class PStatementTest extends FunSuite {
   )
 
   private def parsePeople(rs: ResultSet): People = People(id = rs.getLong("id")
-    , name = rs.getString("name")
+    , fullName = rs.getString("fullName")
     , born = rs.getDateTime("born")
   )
 
