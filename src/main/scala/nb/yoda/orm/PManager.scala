@@ -11,13 +11,13 @@ import scala.reflect.runtime.universe._
 /**
   * Created by Peerapat A on Mar 31, 2017
   */
-case class PManager()(implicit conn: Connection) {
+object PManager {
 
-  def save[A: TypeTag : ClassTag](obj: A): Int = {
+  def apply[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
     insert(obj)
   }
 
-  def insert[A: TypeTag : ClassTag](obj: A): Int = {
+  def insert[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
     val keys = colNames[A]
     val kv = Accessor.toMap[A](obj)
     val table = obj.getClass.getSimpleName.toLowerCase
@@ -31,13 +31,13 @@ case class PManager()(implicit conn: Connection) {
     p.update
   }
 
-  //  def update[A](obj: A): Int = {
-  //    ???
-  //  }
-  //
-  //  def delete[A](obj: A): Int = {
-  //    ???
-  //  }
+  def update[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
+    ???
+  }
+
+  def delete[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
+    ???
+  }
 
   private[orm] def set(p: PStatement, v: Any) = v match {
     case _: Boolean => p.setBoolean(v.asInstanceOf[Boolean])

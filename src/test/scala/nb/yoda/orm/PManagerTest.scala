@@ -25,7 +25,7 @@ class PManagerTest extends FunSuite {
       """.stripMargin)
       .update
 
-    PManager().save(People(1L, "Yo", DateTime.now))
+    PManager(People(1L, "Yo", DateTime.now))
 
   }
 

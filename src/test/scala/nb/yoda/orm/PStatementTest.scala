@@ -83,7 +83,7 @@ class PStatementTest extends FunSuite {
 
   test("2) queryOne with auto Parser") {
 
-    val people = PStatement("""select 1 as id, 'Peerapat' as fullname, now() as born;""")
+    val people = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
       .queryOne[People]
 
     assert(people.head.id === 1)
@@ -93,7 +93,7 @@ class PStatementTest extends FunSuite {
 
   test("3) queryList with parse method") {
 
-    val peoples = PStatement("""select 1 as id, 'Peerapat' as fullname, now() as born;""")
+    val peoples = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
       .queryList(parsePeople)
 
     assert(peoples.head.id === 1)
@@ -103,7 +103,7 @@ class PStatementTest extends FunSuite {
 
   test("4) queryList with auto parse") {
 
-    val peoples = PStatement("""select 1 as id, 'Peerapat' as fullname, now() as born;""")
+    val peoples = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
       .queryList[People]
 
     assert(peoples.head.id === 1)
@@ -145,7 +145,7 @@ class PStatementTest extends FunSuite {
   )
 
   private def parsePeople(rs: ResultSet): People = People(id = rs.getLong("id")
-    , name = rs.getString("fullName")
+    , name = rs.getString("name")
     , born = rs.getDateTime("born")
   )
 

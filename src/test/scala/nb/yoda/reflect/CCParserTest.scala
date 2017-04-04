@@ -9,8 +9,8 @@ import org.scalatest.FunSuite
   */
 class CCParserTest extends FunSuite {
 
-  test("""1) Map(id -> 1L, fullName -> "Peerapat", born -> "Apr 6, 1982")""") {
-    val map = Map("id" -> 1L, "fullName" -> "Peerapat", "born" -> DateTime.now)
+  test("""1) Map(id -> 1L, name -> "Peerapat", born -> "Apr 6, 1982")""") {
+    val map = Map("id" -> 1L, "name" -> "Peerapat", "born" -> DateTime.now)
 
     val people = CCParser[People](map)
 
