@@ -1,12 +1,11 @@
-package yodaorm.core
+package nb.yoda.orm
 
 import java.sql.{DriverManager, ResultSet, Timestamp}
 
 import mocks.{Foo, People}
+import nb.yoda.orm.JavaSqlImprovement._
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
-
-import yodaorm.core.JavaSqlImprovement._
 
 /**
   * Created by Peerapat A on Feb 5, 2017
@@ -88,7 +87,7 @@ class PStatementTest extends FunSuite {
       .queryOne[People]
 
     assert(people.head.id === 1)
-    assert(people.head.fullName === "Peerapat")
+    assert(people.head.name === "Peerapat")
     assert(people.head.born.getMillis <= DateTime.now.getMillis)
   }
 
@@ -98,7 +97,7 @@ class PStatementTest extends FunSuite {
       .queryList(parsePeople)
 
     assert(peoples.head.id === 1)
-    assert(peoples.head.fullName === "Peerapat")
+    assert(peoples.head.name === "Peerapat")
     assert(peoples.head.born.getMillis <= DateTime.now.getMillis)
   }
 
@@ -108,7 +107,7 @@ class PStatementTest extends FunSuite {
       .queryList[People]
 
     assert(peoples.head.id === 1)
-    assert(peoples.head.fullName === "Peerapat")
+    assert(peoples.head.name === "Peerapat")
     assert(peoples.head.born.getMillis <= DateTime.now.getMillis)
   }
 
@@ -146,7 +145,7 @@ class PStatementTest extends FunSuite {
   )
 
   private def parsePeople(rs: ResultSet): People = People(id = rs.getLong("id")
-    , fullName = rs.getString("fullName")
+    , name = rs.getString("fullName")
     , born = rs.getDateTime("born")
   )
 

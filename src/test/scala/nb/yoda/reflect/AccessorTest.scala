@@ -1,8 +1,9 @@
-package yodaorm.core
+package nb.yoda.reflect
 
 import java.sql.Timestamp
 
 import mocks.AllType
+import nb.yoda.reflect.Accessor
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 

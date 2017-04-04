@@ -1,4 +1,4 @@
-package yodaorm.core
+package nb.yoda.orm
 
 import java.sql.{ResultSet, Timestamp}
 

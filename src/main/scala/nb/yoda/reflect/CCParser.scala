@@ -1,4 +1,4 @@
-package yodaorm.core
+package nb.yoda.reflect
 
 import scala.reflect._
 import scala.util.Try
@@ -8,9 +8,9 @@ import scala.util.Try
   *
   * Created by Peerapat A on Mar 21, 2017
   */
-private[yodaorm] object CCParser {
+private[yoda] object CCParser {
 
-  private[yodaorm] def apply[T](vals: Map[String, Any])(implicit cmf: ClassTag[T]): T = {
+  private[yoda] def apply[T](vals: Map[String, Any])(implicit cmf: ClassTag[T]): T = {
     val ctor = cmf.runtimeClass.getConstructors
       .head
 
@@ -20,12 +20,5 @@ private[yodaorm] object CCParser {
 
     ctor.newInstance(args: _*).asInstanceOf[T]
   }
-
-  private[yodaorm] def toMap(cc: AnyRef): Map[String, AnyRef] =
-    (Map[String, AnyRef]() /: cc.getClass.getDeclaredFields) {
-      (a, f) =>
-        f.setAccessible(true)
-        a + (f.getName -> f.get(cc))
-    }
 
 }

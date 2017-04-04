@@ -1,12 +1,13 @@
-package yodaorm.core
+package nb.yoda.orm
 
 import java.sql.{Connection, ResultSet, Timestamp}
 
+import nb.yoda.orm.JavaSqlImprovement._
+import nb.yoda.reflect._
 import org.joda.time.DateTime
 
 import scala.reflect._
 import scala.reflect.runtime.universe._
-import yodaorm.core.JavaSqlImprovement._
 
 /**
   * Created by Peerapat A on Feb 5, 2017
@@ -133,7 +134,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     case "=> String" => rs.getString(sym.name.toString)
     case "=> java.sql.Timestamp" => rs.getTimestamp(sym.name.toString)
     case "=> org.joda.time.DateTime" => rs.getDateTime(sym.name.toString)
-    case t: String => throw new IllegalArgumentException(s"Unsupported Data Type: $t")
+    case _ => rs.getString(sym.name.toString)
   }
 
 }
