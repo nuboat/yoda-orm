@@ -1,11 +1,12 @@
 Scala PreparedStatement
 =====
-I wanna use simple JDBC on my project but java interface design is very old shool to me.
+I wanna use simple JDBC and ORM on my project
 That's why I wrote this wrapper class to use on my project. 
 
-BTW, This project is completely opensource and feel free to PR (with readabilty manual)
+BTW, This project is completely opensource and feel free to PR
 
-Compare PreparedStatement and PStatement
+
+Compare: PreparedStatement and PStatement
 
 PrepareStatementa
 ```
@@ -23,17 +24,25 @@ PrepareStatementa
 
 PStatement
 ```
+    FIND : SELECT * FROM people where id = 1
+    
     val result = PStatement(FIND)
       .setLong(id)
       .setString(status)
       .setDateTime(yesterday)
       .queryOne(rs => (rs.getLong(1)
         , rs.getString(2)
-        , rs.getTimeStamp(3)
         , rs.getDateTime(3)
-      )
+      ) 
+
+    case class People(id: Long, name: String, born: DateTime)
+    
+    val people = PStatement(FIND)
+      .setLong(id)
+      .queryOne[People]
 ```
 
-Reserve Word
-============
-metaentity is reserve word 
+For fully documents, Please looking from /src/test/scala
+
+
+@ COPYRIGHT NORBOR, 2017

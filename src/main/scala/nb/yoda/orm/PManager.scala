@@ -13,8 +13,10 @@ import scala.reflect.runtime.universe._
   */
 object PManager {
 
-  def apply[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
+  def apply[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = try {
     insert(obj)
+  } catch {
+    case _:Throwable => update(obj)
   }
 
   final def insert[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {

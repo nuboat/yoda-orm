@@ -1,9 +1,8 @@
 package nb.yoda.orm
 
-import java.sql.{DriverManager, ResultSet, Timestamp}
+import java.sql.DriverManager
 
-import mocks.{Foo, People}
-import nb.yoda.orm.JavaSqlImprovement._
+import mocks.People
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -25,8 +24,17 @@ class PManagerTest extends FunSuite {
       """.stripMargin)
       .update
 
-    PManager(People(1L, "Yo", DateTime.now))
+    val start = System.currentTimeMillis()
+    PManager.insert(People(1L, "Yo", DateTime.now))
+    val end = System.currentTimeMillis()
 
+    println(s"Run in ${end - start} ms.")
+
+    val start1 = System.currentTimeMillis()
+    PManager.insert(People(1L, "Yo", DateTime.now))
+    val end1 = System.currentTimeMillis()
+
+    println(s"Run in ${end1 - start1} ms.")
   }
 
   test("2 UPDATE") {
@@ -41,7 +49,6 @@ class PManagerTest extends FunSuite {
       .update
 
     PManager.update(People(1L, "Yo 2", DateTime.now))
-
   }
 
   test("3 DELETE") {
@@ -56,7 +63,20 @@ class PManagerTest extends FunSuite {
       .update
 
     PManager.delete(People(1L, "Yo", DateTime.now))
+  }
 
+  test("3 UPSERT") {
+
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS people;
+        |CREATE TABLE people (id BIGINT, name VARCHAR(128), born DATETIME);
+        |
+        |INSERT INTO people (id, name, born) VALUES (1, 'Yo', now());
+      """.stripMargin)
+      .update
+
+    PManager(People(1L, "Yo", DateTime.now))
   }
 
 }
