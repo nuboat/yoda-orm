@@ -24,17 +24,8 @@ class PManagerTest extends FunSuite {
       """.stripMargin)
       .update
 
-    val start = System.currentTimeMillis()
-    PManager.insert(People(1L, "Yo", DateTime.now))
-    val end = System.currentTimeMillis()
-
-    println(s"Run in ${end - start} ms.")
-
-    val start1 = System.currentTimeMillis()
-    PManager.insert(People(1L, "Yo", DateTime.now))
-    val end1 = System.currentTimeMillis()
-
-    println(s"Run in ${end1 - start1} ms.")
+    val count = PManager.insert(People(1L, "Yo", DateTime.now))
+    assert(count === 1)
   }
 
   test("2 UPDATE") {
@@ -48,7 +39,8 @@ class PManagerTest extends FunSuite {
       """.stripMargin)
       .update
 
-    PManager.update(People(1L, "Yo 2", DateTime.now))
+    val count = PManager.update(People(1L, "Yo 2", DateTime.now))
+    assert(count === 1)
   }
 
   test("3 DELETE") {
@@ -62,7 +54,8 @@ class PManagerTest extends FunSuite {
       """.stripMargin)
       .update
 
-    PManager.delete(People(1L, "Yo", DateTime.now))
+    val count = PManager.delete(People(1L, "Yo", DateTime.now))
+    assert(count === 1)
   }
 
   test("3 UPSERT") {
@@ -76,7 +69,8 @@ class PManagerTest extends FunSuite {
       """.stripMargin)
       .update
 
-    PManager(People(1L, "Yo", DateTime.now))
+    val count = PManager(People(1L, "Yo", DateTime.now))
+    assert(count === 1)
   }
 
 }

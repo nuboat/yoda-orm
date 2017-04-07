@@ -1,4 +1,4 @@
-Scala PreparedStatement
+YODA - ORM
 =====
 I wanna use simple JDBC and ORM on my project
 That's why I wrote this wrapper class to use on my project. 
