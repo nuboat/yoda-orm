@@ -63,13 +63,14 @@ class PManagerTest extends FunSuite {
     PStatement(
       """
         |DROP TABLE IF EXISTS people;
-        |CREATE TABLE people (id BIGINT, name VARCHAR(128), born DATETIME);
+        |CREATE TABLE people (id BIGINT NOT NULL, name VARCHAR(128), born DATETIME);
+        |ALTER TABLE people ADD PRIMARY KEY (id);
         |
         |INSERT INTO people (id, name, born) VALUES (1, 'Yo', now());
       """.stripMargin)
       .update
 
-    val count = PManager(People(1L, "Yo", DateTime.now))
+    val count = PManager(People(1L, "Yo Man", DateTime.now))
     assert(count === 1)
   }
 

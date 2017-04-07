@@ -123,6 +123,28 @@ class PStatementTest extends FunSuite {
 
   }
 
+  test("4) queryLimit with auto parse") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS people;
+        |CREATE TABLE people (id BIGINT, name VARCHAR(128), born DATETIME);
+        |
+        |INSERT INTO people (id, name, born) VALUES
+        | (1, 'Yo', now()),
+        | (2, 'Yo', now()),
+        | (3, 'Yo', now()),
+        | (4, 'Yo', now());
+        |
+      """.stripMargin)
+      .update
+
+
+    val peoples = PStatement("""SELECT * FROM people;""")
+      .queryLimit[People](3)
+
+    assert(peoples.size === 3)
+  }
+
   test("5) batch") {
 
     val insert = PStatement("INSERT INTO yoda_sql VALUES(?)")
