@@ -1,9 +1,7 @@
 package nb.yoda.reflect
 
-import java.sql.Timestamp
-
-import mocks.AllType
-import nb.yoda.reflect.Accessor
+import mocks.{AllType, MetaEntity, People}
+import nb.yoda.orm.Meta
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -12,18 +10,31 @@ import org.scalatest.FunSuite
   */
 class AccessorTest extends FunSuite {
 
-  test("""1) Map(id -> 1L, name -> "Peerapat", born -> "Apr 6, 1982")""") {
-    val map = Map("boolean" -> true
-      , "int" -> 1
-      , "long" -> 1L
-      , "double" -> 1.0D
-      , "string" -> "YO"
-      , "timestamp" -> new Timestamp(System.currentTimeMillis)
-      , "datetime" -> DateTime.now)
-
+  test("""1) Get MethodSymbols of Classs""") {
     val methods = Accessor.methods[AllType]
 
     methods.foreach(m => println(m.info))
+  }
+
+  test("""2) Convert class to Map data""") {
+    val people = People(id = 1, name = "Peerapat", born = DateTime.now)
+
+    val map = Accessor.toMap(people)
+
+    assert(map.size >= 3)
+    assert(map("id") === 1)
+    assert(map("name") === "Peerapat")
+    assert(map("born").isInstanceOf[DateTime])
+  }
+
+  test("""3) Meta Information""") {
+    val meta = MetaEntity(id = 1)
+
+    val map = Accessor.toMap(meta)
+
+    assert(map("meta").isInstanceOf[Meta])
+
+    println(map)
   }
 
 }

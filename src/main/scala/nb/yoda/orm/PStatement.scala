@@ -6,6 +6,7 @@ import nb.yoda.orm.JavaSqlImprovement._
 import nb.yoda.reflect._
 import org.joda.time.DateTime
 
+import scala.collection.mutable
 import scala.reflect._
 import scala.reflect.runtime.universe._
 
@@ -102,6 +103,20 @@ case class PStatement(sql: String)(implicit conn: Connection) {
 
       override def next: A = autoparse[A](rs)
     }.toList
+  }
+
+  def queryLimit[A: TypeTag : ClassTag](max: Int): List[A] = {
+    var count: Int = 0
+    val buffer = mutable.ListBuffer[A]()
+
+    val rs = pstmt.executeQuery
+
+    while (rs.next && count <= max) {
+      buffer += autoparse[A](rs)
+      count = count + 1
+    }
+
+    buffer.toList
   }
 
   def addBatch(): PStatement = {

@@ -16,7 +16,7 @@ class PManagerTest extends FunSuite {
 
   private implicit val conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
 
-  test("0) apply") {
+  test("1 INSERT") {
 
     PStatement(
       """
@@ -26,6 +26,36 @@ class PManagerTest extends FunSuite {
       .update
 
     PManager(People(1L, "Yo", DateTime.now))
+
+  }
+
+  test("2 UPDATE") {
+
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS people;
+        |CREATE TABLE people (id BIGINT, name VARCHAR(128), born DATETIME);
+        |
+        |INSERT INTO people (id, name, born) VALUES (1, 'Yo', now());
+      """.stripMargin)
+      .update
+
+    PManager.update(People(1L, "Yo 2", DateTime.now))
+
+  }
+
+  test("3 DELETE") {
+
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS people;
+        |CREATE TABLE people (id BIGINT, name VARCHAR(128), born DATETIME);
+        |
+        |INSERT INTO people (id, name, born) VALUES (1, 'Yo', now());
+      """.stripMargin)
+      .update
+
+    PManager.delete(People(1L, "Yo", DateTime.now))
 
   }
 

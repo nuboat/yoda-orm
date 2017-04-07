@@ -19,15 +19,4 @@ class CCParserTest extends FunSuite {
     assert(people.born.getMillis <= DateTime.now.getMillis)
   }
 
-//  test("""2) toMap""") {
-//    val people = People(id = 1, name = "Peerapat", born = DateTime.now)
-//
-//    val map = CCParser.toMap(people)
-//
-//    assert(map.size >= 3)
-//    assert(map("id") === 1)
-//    assert(map("fullName") === "Peerapat")
-//    assert(map("born").isInstanceOf[DateTime])
-//  }
-
 }

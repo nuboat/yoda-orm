@@ -17,9 +17,11 @@ object PManager {
     insert(obj)
   }
 
-  def insert[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
-    val keys = colNames[A]
+  final def insert[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
     val kv = Accessor.toMap[A](obj)
+
+    val keys = colNames[A]
+
     val table = obj.getClass.getSimpleName.toLowerCase
 
     val stmt = insertStatement(table, keys)
@@ -31,12 +33,44 @@ object PManager {
     p.update
   }
 
-  def update[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
-    ???
+  final def update[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
+    val kv = Accessor.toMap[A](obj)
+
+    val meta = findMeta(kv)
+
+    val pk = meta.pk
+
+    val columns = colNames[A]
+      .filter(k => k != pk)
+      .filter(k => !meta.readonly.contains(k))
+
+    val table = obj.getClass.getSimpleName.toLowerCase
+
+    val stmt = updateStatement(table, pk, columns)
+
+    val p = PStatement(stmt)
+
+    columns.foreach(k => set(p, kv(k)))
+
+    set(p, kv(pk))
+
+    p.update
   }
 
-  def delete[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
-    ???
+  final def delete[A](obj: A)(implicit conn: Connection): Int = {
+    val kv = Accessor.toMap[A](obj)
+
+    val meta = findMeta(kv)
+
+    val pk = meta.pk
+
+    val table = obj.getClass.getSimpleName.toLowerCase
+
+    PStatement(
+      s"""
+         | DELETE $table WHERE $pk = ${kv(pk)}
+       """.stripMargin)
+      .update
   }
 
   private[orm] def set(p: PStatement, v: Any) = v match {
@@ -47,13 +81,26 @@ object PManager {
     case _: String => p.setString(v.asInstanceOf[String])
     case _: Timestamp => p.setTimestamp(v.asInstanceOf[Timestamp])
     case _: DateTime => p.setDateTime(v.asInstanceOf[DateTime])
-    case _ => p.setString(v.asInstanceOf[String])
+    case _ => ;
   }
+
+  private[orm] def findMeta(kv: Map[String, Any]): Meta = kv
+    .find(kv => kv._2.isInstanceOf[Meta])
+    .map(kv => kv._2.asInstanceOf[Meta])
+    .getOrElse(Meta())
 
   private[orm] def insertStatement(table: String, keys: List[String]) =
     s"""
        | INSERT INTO $table (${keys.mkString(", ")}) VALUES (${params(keys.size)})
      """.stripMargin
+
+  private[orm] def updateStatement(table: String, pk: String, columns: List[String]) =
+    s"""
+       | UPDATE $table SET ${updateValue(columns)} = ? WHERE $pk = ?
+     """.stripMargin
+
+  private[orm] def updateValue(columns: List[String]): String = columns
+    .mkString(" = ?, ")
 
   private[orm] def colNames[A: TypeTag]: List[String] = Accessor.methods[A]
     .map(sym => sym.name.toString)
