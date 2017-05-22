@@ -106,7 +106,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
   }
 
   def queryLimit[A: TypeTag : ClassTag](max: Int): List[A] = {
-    var count: Int = 0
+    var count = 0
     val buffer = mutable.ListBuffer[A]()
 
     val rs = pstmt.executeQuery
@@ -114,6 +114,36 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     while (rs.next && count < max) {
       buffer += autoparse[A](rs)
       count = count + 1
+    }
+
+    buffer.toList
+  }
+
+  /**
+    *
+    * @param offset is index of list start from 0
+    * @param length is size of return record
+    * @return
+    */
+  def queryRange[A: TypeTag : ClassTag](offset: Int, length: Int): List[A] = {
+    var count = 0
+    val buffer = mutable.ListBuffer[A]()
+
+    val rs = pstmt.executeQuery
+
+    try {
+      for (i <- 0 until offset) {
+        rs.next()
+        count = count + 1
+      }
+
+      count = 0
+      while (rs.next && count < length) {
+        buffer += autoparse[A](rs)
+        count = count + 1
+      }
+    } catch {
+      case t: Throwable => throw new IllegalStateException(s"Total records are $count less than $offset.")
     }
 
     buffer.toList

@@ -157,6 +157,32 @@ class PStatementTest extends FunSuite {
     assert(insert.length === 2)
   }
 
+  test("6) queryRange with offset 0, length 2") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS people;
+        |CREATE TABLE people (id BIGINT, name VARCHAR(128), born DATETIME);
+        |
+        |INSERT INTO people (id, name, born) VALUES
+        | (1, 'Yo', now()),
+        | (2, 'Yo', now()),
+        | (3, 'Yo', now()),
+        | (4, 'Yo', now());
+        |
+      """.stripMargin)
+      .update
+
+    val peoples1 = PStatement("""SELECT * FROM people;""")
+      .queryRange[People](0, 4)
+
+    assert(peoples1.size === 4)
+
+    val peoples2 = PStatement("""SELECT * FROM people;""")
+      .queryRange[People](2, 4)
+
+    assert(peoples2.size === 2)
+  }
+
   private def parse(rs: ResultSet): (Boolean, Int, Long, Double, String, DateTime, Timestamp) = (rs.getBoolean(1)
     , rs.getInt(2)
     , rs.getLong(3)
