@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
 
 libraryDependencies ++= Seq(
   "com.h2database" % "h2" % "1.4.194" % "test"
+  , "net.sourceforge.jtds" % "jtds" % "1.3.1" % "test"
   , "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 )
 

@@ -90,7 +90,6 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     }.toList
   }
 
-
   def queryOne[A: TypeTag : ClassTag]: Option[A] = {
     val rs = pstmt.executeQuery
     if (rs.next) Some(autoparse[A](rs)) else None
@@ -119,6 +118,20 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     buffer.toList
   }
 
+  def queryLimit[A: TypeTag : ClassTag](max: Int, block: ResultSet => A): List[A] = {
+    var count = 0
+    val buffer = mutable.ListBuffer[A]()
+
+    val rs = pstmt.executeQuery
+
+    while (rs.next && count < max) {
+      buffer += block(rs)
+      count = count + 1
+    }
+
+    buffer.toList
+  }
+
   /**
     *
     * @param offset is index of list start from 0
@@ -136,14 +149,44 @@ case class PStatement(sql: String)(implicit conn: Connection) {
         rs.next()
         count = count + 1
       }
+    } catch {
+      case t: Throwable => throw new IllegalStateException(s"Total records are $count less than $offset.")
+    }
 
-      count = 0
-      while (rs.next && count < length) {
-        buffer += autoparse[A](rs)
+    count = 0
+    while (rs.next && count < length) {
+      buffer += autoparse[A](rs)
+      count = count + 1
+    }
+
+    buffer.toList
+  }
+
+  /**
+    *
+    * @param offset is index of list start from 0
+    * @param length is size of return record
+    * @return
+    */
+  def queryRange[A: TypeTag : ClassTag](offset: Int, length: Int, block: ResultSet => A): List[A] = {
+    var count = 0
+    val buffer = mutable.ListBuffer[A]()
+
+    val rs = pstmt.executeQuery
+
+    try {
+      for (i <- 0 until offset) {
+        rs.next()
         count = count + 1
       }
     } catch {
       case t: Throwable => throw new IllegalStateException(s"Total records are $count less than $offset.")
+    }
+
+    count = 0
+    while (rs.next && count < length) {
+      buffer += block(rs)
+      count = count + 1
     }
 
     buffer.toList

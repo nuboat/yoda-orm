@@ -16,7 +16,7 @@ private[yoda] object CCParser {
 
     val args = cmf.runtimeClass.getDeclaredFields
       .map(f => Try(vals(f.getName).asInstanceOf[AnyRef]).getOrElse(null))
-      .filter(r => r != null)
+//      .filter(r => r != null)
 
     ctor.newInstance(args: _*).asInstanceOf[T]
   }
