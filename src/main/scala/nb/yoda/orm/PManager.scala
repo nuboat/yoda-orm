@@ -16,21 +16,25 @@ object PManager {
   def apply[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = try {
     insert(obj)
   } catch {
-    case _:Throwable => update(obj)
+    case _: Throwable => update(obj)
   }
 
   final def insert[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
     val kv = Accessor.toMap[A](obj)
 
-    val keys = colNames[A]
+    val meta = findMeta(kv)
 
-    val table = obj.getClass.getSimpleName.toLowerCase
+    val keys = ColumnParser.colNames[A]
+
+    val table = meta.table.getOrElse(obj.getClass.getSimpleName.toLowerCase)
 
     val stmt = insertStatement(table, keys)
 
     val p = PStatement(stmt)
 
-    keys.foreach(k => set(p, kv(k)))
+    val kvs = kv.map(k => ColumnParser.namingStategy(k._1) -> k._2)
+
+    keys.foreach(k => set(p, kvs(k)))
 
     p.update
   }
@@ -42,19 +46,21 @@ object PManager {
 
     val pk = meta.pk
 
-    val columns = colNames[A]
+    val columns = ColumnParser.colNames[A]
       .filter(k => k != pk)
       .filter(k => !meta.readonly.contains(k))
 
-    val table = obj.getClass.getSimpleName.toLowerCase
+    val table = meta.table.getOrElse(obj.getClass.getSimpleName.toLowerCase)
 
     val stmt = updateStatement(table, pk, columns)
 
     val p = PStatement(stmt)
 
-    columns.foreach(k => set(p, kv(k)))
+    val kvs = kv.map(k => ColumnParser.namingStategy(k._1) -> k._2)
 
-    set(p, kv(pk))
+    columns.foreach(k => set(p, kvs(k)))
+
+    set(p, kvs(pk))
 
     p.update
   }
@@ -104,10 +110,6 @@ object PManager {
 
   private[orm] def updateValue(columns: List[String]): String = columns
     .mkString(" = ?, ")
-
-  private[orm] def colNames[A: TypeTag]: List[String] = Accessor.methods[A]
-    .map(sym => sym.name.toString)
-    .map(name => name.toLowerCase)
 
   private[orm] def params(count: Int): String = List.fill(count)("?")
     .mkString(", ")

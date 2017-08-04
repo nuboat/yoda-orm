@@ -207,21 +207,21 @@ case class PStatement(sql: String)(implicit conn: Connection) {
 
   private def autoparse[A: TypeTag : ClassTag](rs: ResultSet): A = {
     val kv = Accessor.methods[A]
-      .map(sym => sym.name.toString -> lookup(rs, sym))
+      .map(sym => sym.name.toString -> lookup(rs, sym, ColumnParser.namingStategy(sym)))
       .toMap
 
     CCParser[A](kv)
   }
 
-  private def lookup(rs: ResultSet, sym: MethodSymbol) = sym.info.toString.replace("scala.", "") match {
-    case "=> Boolean" => rs.getBoolean(sym.name.toString)
-    case "=> Int" => rs.getInt(sym.name.toString)
-    case "=> Long" => rs.getLong(sym.name.toString)
-    case "=> Double" => rs.getDouble(sym.name.toString)
-    case "=> String" => rs.getString(sym.name.toString)
-    case "=> java.sql.Timestamp" => rs.getTimestamp(sym.name.toString)
-    case "=> org.joda.time.DateTime" => rs.getDateTime(sym.name.toString)
-    case _ => rs.getString(sym.name.toString)
+  private def lookup(rs: ResultSet, sym: MethodSymbol, col: String) = sym.info.toString.replace("scala.", "") match {
+    case "=> Boolean" => rs.getBoolean(col)
+    case "=> Int" => rs.getInt(col)
+    case "=> Long" => rs.getLong(col)
+    case "=> Double" => rs.getDouble(col)
+    case "=> String" => rs.getString(col)
+    case "=> java.sql.Timestamp" => rs.getTimestamp(col)
+    case "=> org.joda.time.DateTime" => rs.getDateTime(col)
+    case _ => rs.getString(col)
   }
 
 }

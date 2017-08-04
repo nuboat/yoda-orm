@@ -2,7 +2,7 @@ package nb.yoda.orm
 
 import java.sql.DriverManager
 
-import mocks.People
+import mocks.{Iden, People}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -14,6 +14,19 @@ class PManagerTest extends FunSuite {
   Class.forName("org.h2.Driver")
 
   private implicit val conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
+
+  test("0 Insert Identity Field") {
+
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS iden;
+        |CREATE TABLE iden (id BIGINT);
+      """.stripMargin)
+      .update
+
+    val count = PManager.insert(Iden(1L))
+    assert(count === 1)
+  }
 
   test("1 INSERT") {
 

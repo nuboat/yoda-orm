@@ -186,3 +186,5 @@ server.pid
 /dist/
 .cache
 
+/src/test/scala/nb/yoda/orm/QueryRangeTest.scala
+/src/test/scala/mocks/ActorTree.scala

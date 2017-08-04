@@ -2,9 +2,9 @@ organization := "nb"
 
 name := "yoda-orm"
 
-version := "1.2.3"
+version := "1.3.1"
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.2"
 
 libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.9.9"
@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   , "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 )
 
-crossScalaVersions := Seq("2.11.11", "2.12.1")
+crossScalaVersions := Seq("2.11.11", "2.12.2")
 
 publishTo := Some("Artifactory Realm" at "https://artifact.billme.in.th/artifactory/billme-public")
 
