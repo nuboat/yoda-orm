@@ -2,7 +2,7 @@ organization := "nb"
 
 name := "yoda-orm"
 
-version := "1.3.2"
+version := "1.3.3"
 
 scalaVersion := "2.12.3"
 

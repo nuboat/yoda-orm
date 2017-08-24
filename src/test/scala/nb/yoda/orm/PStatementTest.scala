@@ -1,8 +1,8 @@
 package nb.yoda.orm
 
-import java.sql.{DriverManager, ResultSet, Timestamp}
+import java.sql.{Connection, DriverManager, ResultSet, Timestamp}
 
-import mocks.{Foo, People}
+import mocks.{Foo, JavaTest, People}
 import nb.yoda.orm.JavaSqlImprovement._
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
@@ -14,7 +14,7 @@ class PStatementTest extends FunSuite {
 
   Class.forName("org.h2.Driver")
 
-  private implicit val conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
+  private implicit val conn: Connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
 
   test("0) apply") {
 
@@ -181,6 +181,36 @@ class PStatementTest extends FunSuite {
       .queryRange[People](2, 4)
 
     assert(peoples2.size === 2)
+  }
+
+  test("7) query with java primitive type") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS javatest;
+        |CREATE TABLE javatest (ida INT, idb BIGINT, idc DOUBLE);
+        |
+        |INSERT INTO javatest(ida, idb, idc) VALUES
+        | (1, 2, 3.3);
+      """.stripMargin)
+      .update
+
+    val javaTest = PStatement("select * from javatest;")
+      .queryOne[JavaTest]
+
+    assert(javaTest !== null)
+  }
+
+  test("8) insert java primitive type") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS javatest;
+        |CREATE TABLE javatest (ida INT, idb BIGINT, idc DOUBLE);
+      """.stripMargin)
+      .update
+
+    val re = PManager.insert(JavaTest(1, 2L, 3.3))
+
+    assert(re === 1)
   }
 
   private def parse(rs: ResultSet): (Boolean, Int, Long, Double, String, DateTime, Timestamp) = (rs.getBoolean(1)

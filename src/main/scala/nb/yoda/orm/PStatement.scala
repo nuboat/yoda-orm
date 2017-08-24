@@ -213,9 +213,13 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     CCParser[A](kv)
   }
 
-  private def lookup(rs: ResultSet, sym: MethodSymbol, col: String) = sym.info.toString.replace("scala.", "") match {
+  private def lookup(rs: ResultSet, sym: MethodSymbol, col: String) = sym.info.toString
+    .replace("scala.", "")
+    .replace("java.lang.", "") match {
+
     case "=> Boolean" => rs.getBoolean(col)
     case "=> Int" => rs.getInt(col)
+    case "=> Integer" => rs.getInt(col)
     case "=> Long" => rs.getLong(col)
     case "=> Double" => rs.getDouble(col)
     case "=> String" => rs.getString(col)
