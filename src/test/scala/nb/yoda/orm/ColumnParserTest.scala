@@ -20,7 +20,7 @@ class ColumnParserTest extends FunSuite {
     assert(list.head === "account_id")
   }
 
-  test("2) ") {
+  test("2) Get Keys") {
     val keys = ColumnParser.colNames[Client]
 
     println(keys)

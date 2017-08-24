@@ -2,6 +2,7 @@ package nb.yoda.orm
 
 import java.sql.{Connection, Timestamp}
 
+import com.typesafe.scalalogging.LazyLogging
 import nb.yoda.reflect.Accessor
 import org.joda.time.DateTime
 
@@ -11,7 +12,7 @@ import scala.reflect.runtime.universe._
 /**
   * Created by Peerapat A on Mar 31, 2017
   */
-object PManager {
+object PManager extends LazyLogging {
 
   def apply[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = try {
     insert(obj)
@@ -30,9 +31,13 @@ object PManager {
 
     val stmt = insertStatement(table, keys)
 
+    logger.debug(s"STMT $stmt")
+
     val p = PStatement(stmt)
 
     val kvs = kv.map(k => ColumnParser.namingStategy(k._1) -> k._2)
+
+    logger.debug(s"KV $kvs")
 
     keys.foreach(k => set(p, kvs(k)))
 
@@ -54,11 +59,15 @@ object PManager {
 
     val stmt = updateStatement(table, pk, columns)
 
+    logger.debug(s"STMT $stmt")
+
     val p = PStatement(stmt)
 
     val kvs = kv.map(k => ColumnParser.namingStategy(k._1) -> k._2)
 
     columns.foreach(k => set(p, kvs(k)))
+
+    logger.debug(s"KV $kvs")
 
     set(p, kvs(pk))
 

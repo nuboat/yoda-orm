@@ -20,6 +20,7 @@ class PManagerTest extends FunSuite {
     PStatement(
       """
         |DROP TABLE IF EXISTS iden;
+        |
         |CREATE TABLE iden (id BIGINT);
       """.stripMargin)
       .update
