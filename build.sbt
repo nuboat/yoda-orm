@@ -1,8 +1,8 @@
-organization := "nb"
+organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "1.3.3"
+version := "1.4.0"
 
 scalaVersion := "2.12.3"
 
@@ -14,9 +14,7 @@ libraryDependencies ++= Seq(
 
 libraryDependencies ++= Seq(
   "com.h2database" % "h2" % "1.4.194" % "test"
-  , "net.sourceforge.jtds" % "jtds" % "1.3.1" % "test"
   , "org.scalatest" %% "scalatest" % "3.0.4" % "test"
-
 )
 
 parallelExecution in Test := false
