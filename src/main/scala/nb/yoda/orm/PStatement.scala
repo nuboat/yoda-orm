@@ -138,6 +138,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     * @param length is size of return record
     * @return
     */
+  @deprecated("Performance Issues, Please aviod to use till it fixed")
   def queryRange[A: TypeTag : ClassTag](offset: Int, length: Int): List[A] = {
     var count = 0
     val buffer = mutable.ListBuffer[A]()
@@ -168,6 +169,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     * @param length is size of return record
     * @return
     */
+  @deprecated("Performance Issues, Please aviod to use till it fixed")
   def queryRange[A: TypeTag : ClassTag](offset: Int, length: Int, block: ResultSet => A): List[A] = {
     var count = 0
     val buffer = mutable.ListBuffer[A]()

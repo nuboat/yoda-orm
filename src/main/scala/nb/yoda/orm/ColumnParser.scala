@@ -6,6 +6,9 @@ import nb.yoda.reflect.Accessor
 import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
+/**
+  * Peerapat A, Sep 23, 2017
+  */
 object ColumnParser {
 
   var namingConvention: NamingConvention.Value = NamingConvention.Simple
