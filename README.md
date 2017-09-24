@@ -40,6 +40,11 @@ PStatement
     val people = PStatement(FIND)
       .setLong(id)
       .queryOne[People]
+      
+      
+    val peoples = PStatement(FIND)
+      .setLong(id)
+      .queryList[People]
 ```
 
 For fully documents, Please looking from /src/test/scala
