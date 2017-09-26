@@ -6,6 +6,7 @@ That's why I wrote this wrapper class to use on my project.
 BTW, This project is completely opensource and feel free to PR
 
 
+
 Compare: PreparedStatement and PStatement
 
 PrepareStatementa
@@ -49,5 +50,12 @@ PStatement
 
 For fully documents, Please looking from /src/test/scala
 
+
+Publish 
+=====
+```
+sbt publishSigned
+sbt sonatypeRelease
+```
 
 @ COPYRIGHT NORBOR, 2017

@@ -4,7 +4,6 @@ import org.scalatest.FunSuite
 
 class NamingTest extends FunSuite {
 
-
   test("testSnakecaseToCamel") {
     val input = "thisIsA1Test"
     val expected = "this_is_a_1_test"

@@ -2,9 +2,11 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "1.5.0"
+version := "1.5.1"
 
 scalaVersion := "2.12.3"
+
+scalacOptions += "-deprecation"
 
 libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
