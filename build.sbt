@@ -23,10 +23,6 @@ parallelExecution in Test := false
 
 crossScalaVersions := Seq("2.11.11", "2.12.3")
 
-//publishTo := Some("Artifactory Realm" at "https://artifact.billme.in.th/artifactory/billme-public")
-
-//credentials += Credentials("Artifactory Realm", "artifact.billme.in.th", "admin", "")
-
 publishTo := Some(
   if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging
 )
