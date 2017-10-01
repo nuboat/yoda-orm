@@ -1,6 +1,6 @@
 package mocks
 
-import nb.yoda.orm.Meta
+import in.norbor.yoda.orm.Meta
 import org.joda.time.DateTime
 
 case class Client(id: Identity

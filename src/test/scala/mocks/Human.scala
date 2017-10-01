@@ -1,7 +1,7 @@
 package mocks
 
+import in.norbor.yoda.orm.Meta
 import org.joda.time.DateTime
-import nb.yoda.orm.Meta
 
 /**
   * Created by Peerapat A on Mar 22, 2017
