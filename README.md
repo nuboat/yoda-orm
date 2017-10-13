@@ -1,16 +1,20 @@
 YODA - ORM
-=====
-I wanna use simple JDBC and ORM on my project
-That's why I wrote this wrapper class to use on my project. 
+==========
+Simple Scala case class ORM, 
+ 
+```Publish Command
+sbt publishSigned
+sbt sonatypeRelease
+``` 
+
 
 BTW, This project is completely opensource and feel free to PR
 
 
-
 Compare: PreparedStatement and PStatement
+========
 
-PrepareStatementa
-```
+```PrepareStatement
     val preparedStatement = conn.prepareStatement(FIND)
     preparedStatement.setLong(1, id)
     preparedStatement.setString(2, status)
@@ -23,8 +27,7 @@ PrepareStatementa
         , rs.getTimeStamp(3))
 ```
 
-PStatement
-```
+```PStatement
     FIND : SELECT * FROM people where id = 1
     
     val result = PStatement(FIND)
@@ -42,20 +45,30 @@ PStatement
       .setLong(id)
       .queryOne[People]
       
-      
     val peoples = PStatement(FIND)
       .setLong(id)
       .queryList[People]
+      
+    
+    import in.norbor.yoda.orm.JavaSqlImprovement
+      
+    val peoples = PStatement(FIND)
+      .setLong(id)
+      .queryOne( (rs) => People(id = rs.getLong("id")
+        , name = rs.getLong("name")
+        , boar = rs.getDateTime("born")
+      )
+      
+    val peoples = PStatement(FIND)
+      .setLong(id)
+      .queryList( (rs) => People(id = rs.getLong("id")
+        , name = rs.getLong("name")
+        , boar = rs.getDateTime("born")
+      )
 ```
 
 For fully documents, Please looking from /src/test/scala
 
 
-Publish 
-=====
-```
-sbt publishSigned
-sbt sonatypeRelease
-```
 
-@ COPYRIGHT NORBOR, 2017
+@ COPYRIGHT IN.NORBOR, 2017

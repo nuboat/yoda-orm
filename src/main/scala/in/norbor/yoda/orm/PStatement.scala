@@ -225,6 +225,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     case "=> Long" => rs.getLong(col)
     case "=> Double" => rs.getDouble(col)
     case "=> String" => rs.getString(col)
+    case "=> in.norbor.yoda.jtype.Jbcrypt" => rs.getJbcrypt(col)
     case "=> java.sql.Timestamp" => rs.getTimestamp(col)
     case "=> org.joda.time.DateTime" => rs.getDateTime(col)
     case _ => rs.getString(col)

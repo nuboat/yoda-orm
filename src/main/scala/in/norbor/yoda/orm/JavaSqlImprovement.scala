@@ -6,7 +6,7 @@ import in.norbor.yoda.jtype.JBoolean.JBoolean
 import in.norbor.yoda.jtype.JDouble.JDouble
 import in.norbor.yoda.jtype.JInt.JInt
 import in.norbor.yoda.jtype.JLong.JLong
-import in.norbor.yoda.jtype.{JBoolean, JDouble, JInt, JLong}
+import in.norbor.yoda.jtype._
 import org.joda.time.DateTime
 
 /**
@@ -15,6 +15,10 @@ import org.joda.time.DateTime
 object JavaSqlImprovement {
 
   implicit class ResultSetImprovement(rs: ResultSet) {
+
+    def getJbcrypt(ind: Int): Jbcrypt = Option(rs.getString(ind)).map(v => Jbcrypt(v)).orNull
+
+    def getJbcrypt(key: String): Jbcrypt = Option(rs.getString(key)).map(v => Jbcrypt(v)).orNull
 
     def getJBoolean(ind: Int): JBoolean = Option(rs.getBoolean(ind)).map(v => JBoolean(v)).orNull
 

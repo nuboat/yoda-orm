@@ -2,16 +2,17 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "2.0"
+version := "2.1.0"
 
 scalaVersion := "2.12.3"
 
-scalacOptions += "-deprecation"
+scalacOptions := Seq("-feature", "-deprecation")
 
 libraryDependencies ++= Seq(
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.8.9"
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.1"
   , "com.typesafe" % "config" % "1.3.1"
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
+  , "de.svenkubiak" % "jBCrypt" % "0.4.1"
   , "joda-time" % "joda-time" % "2.9.9"
   , "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
