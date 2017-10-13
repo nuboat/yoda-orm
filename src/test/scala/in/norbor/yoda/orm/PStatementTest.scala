@@ -3,7 +3,7 @@ package in.norbor.yoda.orm
 import java.sql.{Connection, DriverManager, ResultSet, Timestamp}
 
 import in.norbor.yoda.orm.JavaSqlImprovement._
-import mocks.{Foo, JavaTest, People}
+import mocks.{Foo, JavaTest, People, Username}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -211,6 +211,23 @@ class PStatementTest extends FunSuite {
     val re = PManager.insert(JavaTest(1, 2L, 3.3))
 
     assert(re === 1)
+  }
+
+  test("8) query jbcrypt ") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS username;
+        |CREATE TABLE username (username VARCHAR(128), password VARCHAR(128));
+        |
+        |INSERT INTO username (username, password) VALUES
+        | ('yoda', '$2a$10$0F6o7qJj06WGLZcsAahBMeRvuKKSNgdDSpicwKz6oFPJKxdQhUgp2'),
+      """.stripMargin)
+      .update
+
+    val re = PStatement("select * from username;")
+      .queryOne[Username]
+
+    assert(re.isDefined)
   }
 
   private def parse(rs: ResultSet): (Boolean, Int, Long, Double, String, DateTime, Timestamp) = (rs.getBoolean(1)

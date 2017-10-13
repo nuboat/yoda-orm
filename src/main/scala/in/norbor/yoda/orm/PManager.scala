@@ -3,6 +3,7 @@ package in.norbor.yoda.orm
 import java.sql.{Connection, Timestamp}
 
 import com.typesafe.scalalogging.LazyLogging
+import in.norbor.yoda.jtype.Jbcrypt
 import in.norbor.yoda.utilities.Accessor
 import org.joda.time.DateTime
 
@@ -97,6 +98,7 @@ object PManager extends LazyLogging {
     case _: Float => p.setDouble(v.asInstanceOf[Float])
     case _: Double => p.setDouble(v.asInstanceOf[Double])
     case _: String => p.setString(v.asInstanceOf[String])
+    case _: Jbcrypt => p.setString(v.asInstanceOf[Jbcrypt].hash)
     case _: Timestamp => p.setTimestamp(v.asInstanceOf[Timestamp])
     case _: DateTime => p.setDateTime(v.asInstanceOf[DateTime])
     case _ => ;

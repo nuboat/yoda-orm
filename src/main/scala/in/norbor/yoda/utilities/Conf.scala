@@ -23,4 +23,7 @@ object Conf {
   def int(key: String): Int = conf.getInt(key)
   def int(key: String, default: Int): Int = Try(conf.getInt(key)).getOrElse(default)
 
+  def long(key: String): Long = conf.getLong(key)
+  def long(key: String, default: Long): Long = Try(conf.getLong(key)).getOrElse(default)
+
 }
