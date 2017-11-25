@@ -200,19 +200,6 @@ class PStatementTest extends FunSuite {
     assert(javaTest !== null)
   }
 
-  test("8) insert java primitive type") {
-    PStatement(
-      """
-        |DROP TABLE IF EXISTS javatest;
-        |CREATE TABLE javatest (ida INT, idb BIGINT, idc DOUBLE);
-      """.stripMargin)
-      .update
-
-    val re = PManager.insert(JavaTest(1, 2L, 3.3))
-
-    assert(re === 1)
-  }
-
   test("8) query jbcrypt ") {
     PStatement(
       """

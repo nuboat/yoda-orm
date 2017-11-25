@@ -2,6 +2,10 @@ package in.norbor.yoda.orm
 
 import java.sql.{Connection, ResultSet, Timestamp}
 
+import in.norbor.yoda.jtype.JBoolean.JBoolean
+import in.norbor.yoda.jtype.JDouble.JDouble
+import in.norbor.yoda.jtype.JInt.JInt
+import in.norbor.yoda.jtype.JLong.JLong
 import in.norbor.yoda.orm.JavaSqlImprovement._
 import in.norbor.yoda.utilities.{Accessor, MapToClass}
 import org.joda.time.DateTime
@@ -26,9 +30,23 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     count
   }
 
+  def setJBoolean(param: JBoolean): PStatement = setJBoolean(counter, param)
+
+  def setJBoolean(ind: Int, param: JBoolean): PStatement = {
+    pstmt.setBoolean(ind, param)
+    count
+  }
+
   def setInt(param: Int): PStatement = setInt(counter, param)
 
   def setInt(ind: Int, param: Int): PStatement = {
+    pstmt.setInt(ind, param)
+    count
+  }
+
+  def setJInt(param: JInt): PStatement = setJInt(counter, param)
+
+  def setJInt(ind: Int, param: JInt): PStatement = {
     pstmt.setInt(ind, param)
     count
   }
@@ -40,9 +58,23 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     count
   }
 
+  def setJLong(param: JLong): PStatement = setJLong(counter, param)
+
+  def setJLong(ind: Int, param: JLong): PStatement = {
+    pstmt.setLong(ind, param)
+    count
+  }
+
   def setDouble(param: Double): PStatement = setDouble(counter, param)
 
   def setDouble(ind: Int, param: Double): PStatement = {
+    pstmt.setDouble(ind, param)
+    count
+  }
+
+  def setJDouble(param: JDouble): PStatement = setJDouble(counter, param)
+
+  def setJDouble(ind: Int, param: JDouble): PStatement = {
     pstmt.setDouble(ind, param)
     count
   }
@@ -217,18 +249,23 @@ case class PStatement(sql: String)(implicit conn: Connection) {
 
   private def lookup(rs: ResultSet, sym: MethodSymbol, col: String) = sym.info.toString
     .replace("scala.", "")
-    .replace("java.lang.", "") match {
+    .replace("java.lang.", "")
+    .replace("in.norbor.yoda.jtype.", "") match {
 
     case "=> Boolean" => rs.getBoolean(col)
+    case "=> JBoolean" => rs.getJBoolean(col)
     case "=> Int" => rs.getInt(col)
+    case "=> JInt" => rs.getJInt(col)
     case "=> Integer" => rs.getInt(col)
     case "=> Long" => rs.getLong(col)
+    case "=> JLong" => rs.getJLong(col)
     case "=> Double" => rs.getDouble(col)
+    case "=> JDouble" => rs.getJDouble(col)
     case "=> String" => rs.getString(col)
-    case "=> in.norbor.yoda.jtype.Jbcrypt" => rs.getJbcrypt(col)
+    case "=> Jbcrypt" => rs.getJbcrypt(col)
     case "=> java.sql.Timestamp" => rs.getTimestamp(col)
     case "=> org.joda.time.DateTime" => rs.getDateTime(col)
-    case _ => rs.getString(col)
+    case _ => throw new IllegalArgumentException(s"Does not support $sym")
   }
 
 }

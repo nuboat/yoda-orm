@@ -19,7 +19,7 @@ object Json {
   mapper.setSerializationInclusion(Include.NON_NULL)
   mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-  private val isSnakeCase = Try(Conf.bool("yoda.json.is_snake_case")).getOrElse(false)
+  private val isSnakeCase = Try(Conf.bool("yoda.json.is_snake_case")).getOrElse(true)
   if (isSnakeCase)
     mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
 

@@ -3,7 +3,7 @@ package in.norbor.yoda.orm
 import java.sql.{Connection, DriverManager}
 
 import in.norbor.yoda.jtype.Jbcrypt
-import mocks.{Iden, People, Username}
+import mocks.{Iden, JavaTest, People, Username}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -109,6 +109,19 @@ class PManagerTest extends FunSuite {
       , password = Jbcrypt("$2a$10$0F6o7qJj06WGLZcsAahBMeRvuKKSNgdDSpicwKz6oFPJKxdQhUgp2")))
 
     assert(count === 1)
+  }
+
+  test("5) insert java primitive type") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS javatest;
+        |CREATE TABLE javatest (ida INT, idb BIGINT, idc DOUBLE);
+      """.stripMargin)
+      .update
+
+    val re = PManager.insert(JavaTest(1, 2L, 3.3))
+
+    assert(re === 1)
   }
 
 }
