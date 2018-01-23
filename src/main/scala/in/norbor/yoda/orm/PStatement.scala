@@ -1,6 +1,6 @@
 package in.norbor.yoda.orm
 
-import java.sql.{Connection, ResultSet, Timestamp}
+import java.sql.{Blob, Connection, ResultSet, Timestamp}
 
 import in.norbor.yoda.jtype.JBoolean.JBoolean
 import in.norbor.yoda.jtype.JDouble.JDouble
@@ -101,6 +101,22 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     } else {
       pstmt.setTimestamp(ind, new Timestamp(param.getMillis))
     }
+    count
+  }
+
+  def setBlob(param: Blob): PStatement = setBlob(counter, param)
+
+  def setBlob(param: Array[Byte]): PStatement = setBlob(counter, param)
+
+  def setBlob(ind: Int, param: Array[Byte]): PStatement = {
+    val blob = conn.createBlob()
+    blob.setBytes(1, param)
+
+    setBlob(blob)
+  }
+
+  def setBlob(ind: Int, param: Blob): PStatement = {
+    pstmt.setBlob(ind, param)
     count
   }
 
@@ -261,8 +277,11 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     case "=> JLong" => rs.getJLong(col)
     case "=> Double" => rs.getDouble(col)
     case "=> JDouble" => rs.getJDouble(col)
+    case "=> Float" => rs.getDouble(col)
+    case "=> JFloat" => rs.getJDouble(col)
     case "=> String" => rs.getString(col)
     case "=> Jbcrypt" => rs.getJbcrypt(col)
+    case "=> java.sql.Blob" => rs.getBlob(col)
     case "=> java.sql.Timestamp" => rs.getTimestamp(col)
     case "=> org.joda.time.DateTime" => rs.getDateTime(col)
     case _ => throw new IllegalArgumentException(s"Does not support $sym")

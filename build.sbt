@@ -2,9 +2,9 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "2.2.1"
+version := "2.3.1"
 
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.4"
 
 scalacOptions := Seq("-feature", "-deprecation")
 
@@ -24,7 +24,7 @@ libraryDependencies ++= Seq(
 
 parallelExecution in Test := false
 
-crossScalaVersions := Seq("2.11.11", "2.12.3")
+crossScalaVersions := Seq("2.11.11", "2.12.4")
 
 publishTo := Some(
   if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging

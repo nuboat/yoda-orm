@@ -3,7 +3,7 @@ package in.norbor.yoda.orm
 import java.sql.{Connection, DriverManager}
 
 import in.norbor.yoda.jtype.Jbcrypt
-import mocks.{Iden, JavaTest, People, Username}
+import mocks._
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -120,6 +120,40 @@ class PManagerTest extends FunSuite {
       .update
 
     val re = PManager.insert(JavaTest(1, 2L, 3.3))
+
+    assert(re === 1)
+  }
+
+  test("6) insert java blob type") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS javablob;
+        |CREATE TABLE javablob (id INT, blob BLOB);
+      """.stripMargin)
+      .update
+
+
+    val byteData = "Test Insert blob".getBytes("UTF-8")
+    val blob = conn.createBlob()
+    blob.setBytes(1, byteData)
+
+    val re = PManager.insert(JavaBlob(1, blob))
+
+    assert(re === 1)
+  }
+
+  test("7) insert array of bytes") {
+    PStatement(
+      """
+        |DROP TABLE IF EXISTS javabytes;
+        |CREATE TABLE javabytes (id INT, blob BLOB);
+      """.stripMargin)
+      .update
+
+
+    val bytes = "Test Insert blob".getBytes("UTF-8")
+
+    val re = PManager.insert(JavaBytes(1, bytes))
 
     assert(re === 1)
   }

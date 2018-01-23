@@ -10,7 +10,7 @@ import scala.reflect.runtime.universe._
   */
 object ColumnParser {
 
-  var namingConvention: NamingConvention.Value = NamingConvention.apply(Conf.int("yoda.naming-convention", 1))
+  var namingConvention: NamingConvention.Value = NamingConvention(Conf.int("yoda.naming-convention", 1))
 
   private val cacheCols: mutable.Map[String, List[String]] = mutable.Map()
 
