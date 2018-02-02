@@ -142,20 +142,4 @@ class PManagerTest extends FunSuite {
     assert(re === 1)
   }
 
-  test("7) insert array of bytes") {
-    PStatement(
-      """
-        |DROP TABLE IF EXISTS javabytes;
-        |CREATE TABLE javabytes (id INT, blob BLOB);
-      """.stripMargin)
-      .update
-
-
-    val bytes = "Test Insert blob".getBytes("UTF-8")
-
-    val re = PManager.insert(JavaBytes(1, bytes))
-
-    assert(re === 1)
-  }
-
 }

@@ -104,9 +104,14 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     count
   }
 
-  def setBlob(param: Blob): PStatement = setBlob(counter, param)
+  def setBytes(param: Array[Byte]): PStatement = setBytes(counter, param)
 
-  def setBlob(param: Array[Byte]): PStatement = setBlob(counter, param)
+  def setBytes(ind: Int, param: Array[Byte]): PStatement = {
+    pstmt.setBytes(ind, param)
+    count
+  }
+
+  def setBlob(param: Blob): PStatement = setBlob(counter, param)
 
   def setBlob(ind: Int, param: Array[Byte]): PStatement = {
     val blob = conn.createBlob()
@@ -281,6 +286,7 @@ case class PStatement(sql: String)(implicit conn: Connection) {
     case "=> JFloat" => rs.getJDouble(col)
     case "=> String" => rs.getString(col)
     case "=> Jbcrypt" => rs.getJbcrypt(col)
+    case "=> java.sql.Blob" => rs.getBlob(col)
     case "=> java.sql.Blob" => rs.getBlob(col)
     case "=> java.sql.Timestamp" => rs.getTimestamp(col)
     case "=> org.joda.time.DateTime" => rs.getDateTime(col)
