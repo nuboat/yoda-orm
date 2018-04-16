@@ -7,6 +7,6 @@ import in.norbor.yoda.orm.Meta
   */
 case class MetaEntity(id: Long) {
 
-  val meta = Meta(pk = "id", readonly = List("created"))
+  val meta: Meta = Meta(pk = "id")
 
 }

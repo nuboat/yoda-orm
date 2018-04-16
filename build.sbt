@@ -2,9 +2,9 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "2.4.0"
+version := "2.5.0"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.5"
 
 scalacOptions := Seq("-feature", "-deprecation")
 
@@ -14,6 +14,8 @@ libraryDependencies ++= Seq(
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
   , "de.svenkubiak" % "jBCrypt" % "0.4.1"
   , "joda-time" % "joda-time" % "2.9.9"
+  , "org.apache.velocity" % "velocity" % "1.7"
+  , "org.apache.velocity" % "velocity-tools" % "2.0"
   , "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
 
@@ -25,7 +27,7 @@ libraryDependencies ++= Seq(
 
 parallelExecution in Test := false
 
-crossScalaVersions := Seq("2.11.11", "2.12.4")
+crossScalaVersions := Seq("2.11.11", "2.12.5")
 
 publishTo := Some(
   if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging

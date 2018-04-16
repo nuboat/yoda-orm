@@ -12,14 +12,14 @@ class ColumnParserTest extends FunSuite {
     ColumnParser.namingConvention = NamingConvention.Simple
     val list = ColumnParser.colNames[Account]
 
-    assert(list.head === "accountId")
+    assert(list.head.schemaName === "accountId")
   }
 
   test("1) CamelToSnakecase") {
     ColumnParser.namingConvention = NamingConvention.CamelToSnakecase
     val list = ColumnParser.colNames[Account]
 
-    assert(list.head === "account_id")
+    assert(list.head.schemaName === "account_id")
   }
 
   test("2) Get Keys") {

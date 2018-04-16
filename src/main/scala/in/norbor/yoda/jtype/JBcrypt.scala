@@ -5,7 +5,7 @@ import org.mindrot.jbcrypt.BCrypt
 /**
   * Created by Peerapat A, Oct 10, 2017
   */
-case class Jbcrypt(hash: String) {
+case class JBcrypt(hash: String) {
 
   def isMatch(plaintext: String): Boolean = (plaintext, hash) match {
     case (null, null) | (null, "") | ("", null) | ("", "") => false
@@ -14,11 +14,11 @@ case class Jbcrypt(hash: String) {
 
 }
 
-object Jbcrypt {
+object JBcrypt {
 
-  def build(plain: String): Jbcrypt = if (plain == null || plain.isEmpty)
+  def build(plain: String): JBcrypt = if (plain == null || plain.isEmpty)
     null
   else
-    Jbcrypt(BCrypt.hashpw(plain, BCrypt.gensalt()))
+    JBcrypt(BCrypt.hashpw(plain, BCrypt.gensalt()))
 
 }

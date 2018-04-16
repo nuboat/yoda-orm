@@ -12,9 +12,9 @@ object ColumnParser {
 
   var namingConvention: NamingConvention.Value = NamingConvention(Conf.int("yoda.naming-convention", 1))
 
-  private val cacheCols: mutable.Map[String, List[String]] = mutable.Map()
+  private val cacheCols: mutable.Map[String, List[ColumnMeta]] = mutable.Map()
 
-  def colNames[A: TypeTag]: List[String] = {
+  def colNames[A: TypeTag]: List[ColumnMeta] = {
     val aname = s"${namingConvention.id}_${typeOf[A].toString}"
 
     cacheCols.getOrElse(aname, parseCols[A](aname))
@@ -27,9 +27,11 @@ object ColumnParser {
     case NamingConvention.CamelToSnakecase => Naming.camelToSnakecase(name)
   }
 
-  private def parseCols[A: TypeTag](aname: String): List[String] = {
+  private def parseCols[A: TypeTag](aname: String): List[ColumnMeta] = {
     val list = Accessor.methods[A]
-      .map(sym => namingStategy(sym.name.toString))
+      .map(sym => ColumnMeta(valName = sym.name.toString
+        , schemaType = YodaType.of(sym)
+        , schemaName = namingStategy(sym.name.toString)))
 
     cacheCols.put(aname, list)
     list

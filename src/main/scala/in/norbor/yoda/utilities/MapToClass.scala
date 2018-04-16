@@ -3,7 +3,7 @@ package in.norbor.yoda.utilities
 import java.lang.reflect.Field
 
 import com.typesafe.scalalogging.LazyLogging
-import in.norbor.yoda.jtype.Jbcrypt
+import in.norbor.yoda.jtype.JBcrypt
 
 import scala.reflect._
 
@@ -25,7 +25,7 @@ object MapToClass extends LazyLogging {
 
   def lookup(vals: Map[String, Any], f: Field): AnyRef = try {
     f.getType.getName match {
-      case "in.norbor.yoda.orm.Jbcrypt" => Jbcrypt(vals(f.getName).toString).asInstanceOf[AnyRef]
+      case "in.norbor.yoda.orm.Jbcrypt" => JBcrypt(vals(f.getName).toString).asInstanceOf[AnyRef]
       case _ => vals(f.getName).asInstanceOf[AnyRef]
     }
 
