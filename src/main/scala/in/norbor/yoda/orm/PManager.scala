@@ -3,7 +3,7 @@ package in.norbor.yoda.orm
 import java.sql.{Blob, Connection, Timestamp}
 
 import com.typesafe.scalalogging.LazyLogging
-import in.norbor.yoda.jtype.Jbcrypt
+import in.norbor.yoda.jtype.JBcrypt
 import in.norbor.yoda.utilities.Accessor
 import org.joda.time.DateTime
 
@@ -41,7 +41,7 @@ object PManager extends LazyLogging {
 
     logger.debug(s"KV $kvs")
 
-    keys.foreach(k => set(p, kvs(k)))
+    keys.foreach(k => set(p, kvs(k.schemaName)))
 
     p.update
   }
@@ -54,8 +54,6 @@ object PManager extends LazyLogging {
     val pk = meta.pk
 
     val columns = ColumnParser.colNames[A]
-      .filter(k => k != pk)
-      .filter(k => !meta.readonly.contains(k))
 
     val table = meta.table.getOrElse(obj.getClass.getSimpleName.toLowerCase)
 
@@ -67,7 +65,7 @@ object PManager extends LazyLogging {
 
     val kvs = kv.map(k => ColumnParser.namingStategy(k._1) -> k._2)
 
-    columns.foreach(k => set(p, kvs(k)))
+    columns.filter(_.schemaName != pk).foreach(k => set(p, kvs(k.schemaName)))
 
     logger.debug(s"KV $kvs")
 
@@ -101,7 +99,7 @@ object PManager extends LazyLogging {
     case _: String => p.setString(v.asInstanceOf[String])
     case _: Timestamp => p.setTimestamp(v.asInstanceOf[Timestamp])
     case _: DateTime => p.setDateTime(v.asInstanceOf[DateTime])
-    case _: Jbcrypt => p.setString(v.asInstanceOf[Jbcrypt].hash)
+    case _: JBcrypt => p.setString(v.asInstanceOf[JBcrypt].hash)
     case _: Blob => p.setBlob(v.asInstanceOf[Blob])
     case _: Array[Byte] => p.setBytes(v.asInstanceOf[Array[Byte]])
     case _ => ;
@@ -112,17 +110,15 @@ object PManager extends LazyLogging {
     .map(kv => kv._2.asInstanceOf[Meta])
     .getOrElse(Meta())
 
-  private[orm] def insertStatement(table: String, keys: List[String]) =
-    s"""
-       | INSERT INTO $table (${keys.mkString(", ")}) VALUES (${params(keys.size)})
-     """.stripMargin
+  private[orm] def insertStatement(table: String, keys: List[ColumnMeta]) =
+    s"""INSERT INTO $table (${keys.map(_.schemaName).mkString(", ")}) VALUES (${params(keys.size)})""".stripMargin
 
-  private[orm] def updateStatement(table: String, pk: String, columns: List[String]) =
-    s"""
-       | UPDATE $table SET ${updateValue(columns)} = ? WHERE $pk = ?
-     """.stripMargin
+  private[orm] def updateStatement(table: String, pk: String, columns: List[ColumnMeta]) =
+    s"""UPDATE $table SET ${updateValue(columns, pk)} = ? WHERE $pk = ?""".stripMargin
 
-  private[orm] def updateValue(columns: List[String]): String = columns
+  private[orm] def updateValue(columns: List[ColumnMeta], pk: String): String = columns
+    .map(_.schemaName)
+    .filter(k => k != pk)
     .mkString(" = ?, ")
 
   private[orm] def params(count: Int): String = List.fill(count)("?")

@@ -2,7 +2,7 @@ package in.norbor.yoda.orm
 
 import java.sql.{Connection, DriverManager}
 
-import in.norbor.yoda.jtype.Jbcrypt
+import in.norbor.yoda.jtype.JBcrypt
 import mocks._
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
@@ -15,21 +15,6 @@ class PManagerTest extends FunSuite {
   Class.forName("org.h2.Driver")
 
   private implicit val conn: Connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
-
-  test("0 Insert Identity Field") {
-
-    PStatement(
-      """
-        |DROP TABLE IF EXISTS iden;
-        |
-        |CREATE TABLE iden (id BIGINT);
-      """.stripMargin)
-      .update
-
-    val count = PManager.insert(Iden(1L))
-
-    assert(count === 1)
-  }
 
   test("1 INSERT") {
 
@@ -106,7 +91,7 @@ class PManagerTest extends FunSuite {
       .update
 
     val count = PManager(Username(username = "Yo"
-      , password = Jbcrypt("$2a$10$0F6o7qJj06WGLZcsAahBMeRvuKKSNgdDSpicwKz6oFPJKxdQhUgp2")))
+      , password = JBcrypt("$2a$10$0F6o7qJj06WGLZcsAahBMeRvuKKSNgdDSpicwKz6oFPJKxdQhUgp2")))
 
     assert(count === 1)
   }

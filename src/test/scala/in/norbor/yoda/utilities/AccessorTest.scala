@@ -1,5 +1,6 @@
 package in.norbor.yoda.utilities
 
+import com.typesafe.scalalogging.LazyLogging
 import in.norbor.yoda.orm.Meta
 import mocks.{AllType, MetaEntity, People}
 import org.joda.time.DateTime
@@ -8,15 +9,15 @@ import org.scalatest.FunSuite
 /**
   * Created by Peerapat A on Mar 22, 2017
   */
-class AccessorTest extends FunSuite {
+class AccessorTest extends FunSuite with LazyLogging {
 
   test("""1) Get MethodSymbols of Classs""") {
     val methods = Accessor.methods[AllType]
 
-    methods.foreach(m => println(m.info))
+    methods.foreach(m => println(s"${m.fullName} ${m.info}"))
   }
 
-  test("""2) Convert class to Map data""") {
+  ignore("""2) Convert class to Map data""") {
     val people = People(id = 1, name = "Peerapat", born = DateTime.now)
 
     val map = Accessor.toMap(people)
@@ -27,7 +28,7 @@ class AccessorTest extends FunSuite {
     assert(map("born").isInstanceOf[DateTime])
   }
 
-  test("""3) Meta Information""") {
+  ignore("""3) Meta Information""") {
     val meta = MetaEntity(id = 1)
 
     val map = Accessor.toMap(meta)
