@@ -67,6 +67,13 @@ Compare: PreparedStatement and PStatement
       )
 ```
 
+```Generate Stub
+    val g = Generator()
+    implicit val target: String = "target"
+
+    g.gen[Customer](table = "customer", idName = "id", idType = "String")
+```
+
 For fully documents, Please looking from /src/test/scala
 
 

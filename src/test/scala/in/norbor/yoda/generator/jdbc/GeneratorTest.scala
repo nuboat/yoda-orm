@@ -9,7 +9,7 @@ class GeneratorTest extends FunSuite {
     val g = Generator()
     implicit val target: String = "target"
 
-    g.gen[Customer]("customer", "id", "String")
+    g.gen[Customer](table = "customer", idName = "id", idType = "String")
   }
 
 }
