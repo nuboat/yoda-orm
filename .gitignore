@@ -2,6 +2,7 @@
 .sbtserver.lock
 .credential
 
+velocity.log
 /node_modules
 /RUNNING_PID
 /conf/localhost.conf
