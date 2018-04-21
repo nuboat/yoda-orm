@@ -1,4 +1,4 @@
-package in.norbor.yoda.orm
+package in.norbor.yoda.implicits
 
 import java.sql.{ResultSet, Timestamp}
 

@@ -1,4 +1,4 @@
-package in.norbor.yoda.orm.generated
+package in.norbor.yoda.orm
 
 import java.sql.Connection
 

@@ -15,6 +15,7 @@ private[jdbc] object StandardTemplate {
       |import $entityFullName
       |import in.norbor.yoda.orm.JavaSqlImprovement._
       |import in.norbor.yoda.orm.PStatement
+      |import in.norbor.yoda.orm.SQLGenerated
       |
       |/**
       |  * @author Yoda B

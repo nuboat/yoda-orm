@@ -9,20 +9,10 @@ import org.joda.time.format.DateTimeFormat
 /**
   * Created by Peerapat A on Mar 18, 2017
   */
-private[utilities] object JodaJacksonModule extends SimpleModule {
-
-  private lazy val ISO_SEC = "yyyy-MM-dd HH:mm:ss"
-  private lazy val ISO_SEC_TZ = "yyyy-MM-dd HH:mm:ssZ"
-  private lazy val FORMATER_ISO_SEC = DateTimeFormat.forPattern(ISO_SEC)
-  private lazy val FORMATER_ISO_SEC_TZ = DateTimeFormat.forPattern(ISO_SEC_TZ)
-
-  private lazy val ISO_MILLIS = "yyyy-MM-dd HH:mm:ss.SSSSSS"
-  private lazy val ISO_MILLIS_TZ = "yyyy-MM-dd HH:mm:ss.SSSSSSZ"
-  private lazy val FORMATER_ISO_MILLIS = DateTimeFormat.forPattern(ISO_MILLIS)
-  private lazy val FORMATER_ISO_MILLIS_TZ = DateTimeFormat.forPattern(ISO_MILLIS_TZ)
+private[utilities] object JodaJacksonModule extends SimpleModule with ISODateTime {
 
   addDeserializer(classOf[DateTime], (p: JsonParser
-                                      , ctxt: DeserializationContext) => parseDateTime(p.getText))
+                                      , context: DeserializationContext) => parseDateTime(p.getText))
 
   addSerializer(classOf[DateTime], (value: DateTime
                                     , gen: JsonGenerator
