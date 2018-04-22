@@ -1,5 +1,6 @@
 package in.norbor.yoda.orm
 
+import in.norbor.yoda.utilities.Naming
 import org.scalatest.FunSuite
 
 class NamingTest extends FunSuite {

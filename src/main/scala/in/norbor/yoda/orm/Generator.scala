@@ -1,8 +1,7 @@
-package in.norbor.yoda.generator.jdbc
+package in.norbor.yoda.orm
 
 import java.io.{File, FileWriter, StringReader}
 
-import in.norbor.yoda.orm.{ColumnMeta, ColumnParser}
 import in.norbor.yoda.utilities.Closer
 import org.apache.velocity.runtime.RuntimeSingleton
 import org.apache.velocity.{Template, VelocityContext}
@@ -46,50 +45,50 @@ case class Generator() extends Closer {
     render(fileName = s"$target/${table}SQLGenerated.scala", context)
   }
 
-  private[jdbc] def bindInsert(keys: List[ColumnMeta]): String = keys
+  private[orm] def bindInsert(keys: List[ColumnMeta]): String = keys
     .map(k => s".set${k.schemaType}(e.${k.valName})")
     .mkString("\n    ")
 
-  private[jdbc] def bindUpdate(keys: List[ColumnMeta], pk: String): String = keys
+  private[orm] def bindUpdate(keys: List[ColumnMeta], pk: String): String = keys
     .filter(k => k.schemaName != pk)
     .map(k => s".set${k.schemaType}(e.${k.valName})")
     .mkString("\n    ")
     .concat(bindUpdateWhere(keys, pk))
 
-  private[jdbc] def bindUpdateWhere(keys: List[ColumnMeta], pk: String): String =
+  private[orm] def bindUpdateWhere(keys: List[ColumnMeta], pk: String): String =
     s"\n    ${keys.find(_.schemaName == pk).map(k => s".set${k.schemaType}(e.${k.valName})").get}"
 
-  private[jdbc] def bindResult(keys: List[ColumnMeta]): String = keys
+  private[orm] def bindResult(keys: List[ColumnMeta]): String = keys
     .map(k => s""", ${k.valName} = rs.get${k.schemaType}("${k.schemaName}")""")
     .mkString("\n    ")
     .replaceFirst(", ", "")
 
-  private[jdbc] def render(fileName: String
+  private[orm] def render(fileName: String
                            , context: VelocityContext): Unit = {
     closer(newWriter(fileName)) { writer =>
       tempateSQL.merge(context, writer)
     }
   }
 
-  private[jdbc] def newWriter(fileName: String): FileWriter = {
+  private[orm] def newWriter(fileName: String): FileWriter = {
     val file = new File(fileName)
     file.createNewFile
 
     new FileWriter(file)
   }
 
-  private[jdbc] def insertStatement(table: String, keys: List[ColumnMeta]) =
+  private[orm] def insertStatement(table: String, keys: List[ColumnMeta]) =
     s"""INSERT INTO $table (${keys.map(_.schemaName).mkString(", ")}) VALUES (${params(keys.size)})""".stripMargin
 
-  private[jdbc] def updateStatement(table: String, pk: String, columns: List[ColumnMeta]) =
+  private[orm] def updateStatement(table: String, pk: String, columns: List[ColumnMeta]) =
     s"""UPDATE $table SET ${updateValue(columns, pk)} = ? WHERE $pk = ?""".stripMargin
 
-  private[jdbc] def updateValue(columns: List[ColumnMeta], pk: String): String = columns
+  private[orm] def updateValue(columns: List[ColumnMeta], pk: String): String = columns
     .filter(k => k.schemaName != pk)
     .map(_.schemaName)
     .mkString(" = ?, ")
 
-  private[jdbc] def params(count: Int): String = List.fill(count)("?")
+  private[orm] def params(count: Int): String = List.fill(count)("?")
     .mkString(", ")
 
 }

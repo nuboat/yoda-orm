@@ -2,6 +2,7 @@ package in.norbor.yoda.orm
 
 import java.sql.DriverManager
 
+import in.norbor.yoda.definitions.NamingConvention
 import mocks.Citizen
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 

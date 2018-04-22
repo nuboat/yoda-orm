@@ -1,7 +1,8 @@
-package in.norbor.yoda.orm
+package in.norbor.yoda.definitions
+
+import in.norbor.yoda.implicits.MethodSymbolImprovement._
 
 import scala.reflect.runtime.universe._
-import in.norbor.yoda.implicits.MethodSymbolImprovement._
 
 /**
   * @author Peerapat A on April 18, 2018

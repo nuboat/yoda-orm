@@ -1,14 +1,15 @@
 package in.norbor.yoda.orm
 
-import in.norbor.yoda.utilities.{Accessor, Conf}
+import in.norbor.yoda.definitions.{NamingConvention, YodaType}
+import in.norbor.yoda.utilities.{Accessor, Conf, Naming}
 
 import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
 /**
-  * Peerapat A, Sep 23, 2017
+  * @author Peerapat A on Sep 23, 2017
   */
-object ColumnParser {
+private[orm] object ColumnParser {
 
   var namingConvention: NamingConvention.Value = NamingConvention(Conf.int("yoda.naming-convention", 1))
 
