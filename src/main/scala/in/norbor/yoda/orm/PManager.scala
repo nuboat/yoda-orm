@@ -105,10 +105,10 @@ object PManager extends LazyLogging {
     case _ => ;
   }
 
-  private[orm] def findMeta(kv: Map[String, Any]): Meta = kv
-    .find(kv => kv._2.isInstanceOf[Meta])
-    .map(kv => kv._2.asInstanceOf[Meta])
-    .getOrElse(Meta())
+  private[orm] def findMeta(kv: Map[String, Any]): MetaSchema = kv
+    .find(kv => kv._2.isInstanceOf[MetaSchema])
+    .map(kv => kv._2.asInstanceOf[MetaSchema])
+    .getOrElse(MetaSchema())
 
   private[orm] def insertStatement(table: String, keys: List[ColumnMeta]) =
     s"""INSERT INTO $table (${keys.map(_.schemaName).mkString(", ")}) VALUES (${params(keys.size)})""".stripMargin

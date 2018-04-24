@@ -1,6 +1,5 @@
 package mocks
 
-import in.norbor.yoda.orm.Meta
 import org.joda.time.DateTime
 
 case class Client(id: Long
@@ -9,8 +8,4 @@ case class Client(id: Long
                   , addressesJson: String
                   , remark: String
                   , created: DateTime
-                  , creatorId: Long) {
-
-  val meta = Meta(table = Some("clients"))
-
-}
+                  , creatorId: Long)

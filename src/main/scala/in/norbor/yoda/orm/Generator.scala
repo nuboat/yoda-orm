@@ -32,7 +32,7 @@ case class Generator() extends Closer {
     context.put("entityName", entityName)
     context.put("entityFullName", entityFullName)
     context.put("simpleNameGenerated", s"${table}SQLGenerated")
-    context.put("table", table)
+    context.put("name", table)
     context.put("idType", idType)
     context.put("idName", idName)
     context.put("insertStatement", insertStatement(table, keys))

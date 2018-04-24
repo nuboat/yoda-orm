@@ -15,13 +15,15 @@ import java.lang.annotation.Target;
  * @author Peerapat A on April 21, 2018
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.CONSTRUCTOR)
 public @interface ColumnSchema {
 
-    String dbType();
+    String name();
+
+    String dbType() default "";
 
     boolean isUnique() default false;
 
-    String defaultValue();
+    String defaultValue() default "";
 
 }

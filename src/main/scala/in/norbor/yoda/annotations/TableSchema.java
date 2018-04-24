@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface TableSchema {
 
-    String table();
+    String name();
 
     String pk() default "id";
 
