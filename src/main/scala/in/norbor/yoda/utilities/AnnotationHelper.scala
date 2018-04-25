@@ -14,7 +14,6 @@ object AnnotationHelper {
 
   type AnnotationName = String
   type AnnotationField = String
-  type AnnotationValue = Any
   type PropertyName = String
   type MethodName = String
 
@@ -25,7 +24,7 @@ object AnnotationHelper {
     * @tparam T The type to get class annotations for.
     * @return The class annotations for `T`.
     */
-  def classAnnotations[T: TypeTag]: Map[AnnotationName, Map[AnnotationField, AnnotationValue]] = {
+  def classAnnotations[T: TypeTag]: Map[AnnotationName, Map[AnnotationField, String]] = {
     typeOf[T].typeSymbol.asClass.annotations
       .map(a => annotationName(a) -> extractChild(a.tree.children))
       .toMap
@@ -38,7 +37,7 @@ object AnnotationHelper {
     * @tparam T The type to get constructor annotations for.
     * @return The constructor annotations for `T`.
     */
-  def constructorAnnotations[T: TypeTag]: Map[PropertyName, Map[AnnotationName, Map[AnnotationField, AnnotationValue]]] = {
+  def constructorAnnotations[T: TypeTag]: Map[PropertyName, Map[AnnotationName, Map[AnnotationField, String]]] = {
     symbolOf[T]
       .asClass.primaryConstructor.typeSignature.paramLists.head
       .withFilter(symbol => symbol.annotations.nonEmpty)
@@ -53,20 +52,20 @@ object AnnotationHelper {
     * @tparam T The type to get method annotations for.
     * @return The method annotations for `T`.
     */
-  def methodAnnotations[T: TypeTag]: Map[MethodName, Map[AnnotationName, Map[AnnotationField, AnnotationValue]]] = {
+  def methodAnnotations[T: TypeTag]: Map[MethodName, Map[AnnotationName, Map[AnnotationField, String]]] = {
     typeOf[T].decls.collect { case m: MethodSymbol => m }
       .withFilter(method => method.annotations.nonEmpty)
       .map(method => method.name.toString -> extract(method.annotations))
       .toMap
   }
 
-  private def extract(annotations: List[Annotation]): Map[AnnotationName, Map[AnnotationField, AnnotationValue]] = {
+  private def extract(annotations: List[Annotation]): Map[AnnotationName, Map[AnnotationField, String]] = {
     annotations.map(a => annotationName(a) -> extractChild(a.tree.children)).toMap
   }
 
-  private def extractChild(children: List[Tree]): Map[AnnotationField, AnnotationValue] = children
+  private def extractChild(children: List[Tree]): Map[AnnotationField, String] = children
     .withFilter(_.productPrefix eq "AssignOrNamedArg")
-    .map(tree => tree.productElement(0).toString -> tree.productElement(1))
+    .map(tree => tree.productElement(0).toString.replace("\"", "") -> tree.productElement(1).toString.replace("\"", "") )
     .toMap
 
   private def annotationName(a: Annotation): AnnotationName = a.tree.tpe.typeSymbol.name.toString
