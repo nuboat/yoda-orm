@@ -7,20 +7,20 @@ import in.norbor.yoda.orm.PStatement
 
 trait LongType {
 
-  def pstmt: PreparedStatement
+  protected def pstmt: PreparedStatement
 
-  def count: PStatement
+  protected def count: PStatement
 
-  def counter: Int
+  protected def index: Int
 
-  def setLong(param: Long): PStatement = setLong(counter, param)
+  def setLong(param: Long): PStatement = setLong(index, param)
 
   private def setLong(ind: Int, param: Long): PStatement = {
     pstmt.setLong(ind, param)
     count
   }
 
-  def setJLong(param: JLong): PStatement = setJLong(counter, param)
+  def setJLong(param: JLong): PStatement = setJLong(index, param)
 
   private def setJLong(ind: Int, param: JLong): PStatement = {
     pstmt.setLong(ind, param)

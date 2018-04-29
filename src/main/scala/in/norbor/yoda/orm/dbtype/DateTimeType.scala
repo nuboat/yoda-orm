@@ -7,13 +7,13 @@ import org.joda.time.DateTime
 
 trait DateTimeType {
 
-  def pstmt: PreparedStatement
+  protected def pstmt: PreparedStatement
 
-  def count: PStatement
+  protected def count: PStatement
 
-  def counter: Int
+  protected def index: Int
 
-  def setDateTime(param: DateTime): PStatement = setDateTime(counter, param)
+  def setDateTime(param: DateTime): PStatement = setDateTime(index, param)
 
   private def setDateTime(ind: Int, param: DateTime): PStatement = {
     if (param == null) {

@@ -7,20 +7,20 @@ import in.norbor.yoda.orm.PStatement
 
 trait IntType {
 
-  def pstmt: PreparedStatement
+  protected def pstmt: PreparedStatement
 
-  def count: PStatement
+  protected def count: PStatement
 
-  def counter: Int
+  protected def index: Int
 
-  def setInt(param: Int): PStatement = setInt(counter, param)
+  def setInt(param: Int): PStatement = setInt(index, param)
 
   private def setInt(ind: Int, param: Int): PStatement = {
     pstmt.setInt(ind, param)
     count
   }
 
-  def setJInt(param: JInt): PStatement = setJInt(counter, param)
+  def setJInt(param: JInt): PStatement = setJInt(index, param)
 
   private def setJInt(ind: Int, param: JInt): PStatement = {
     pstmt.setInt(ind, param)

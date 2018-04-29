@@ -26,35 +26,35 @@ case class PStatement(sql: String)(implicit conn: Connection)
     with DateTimeType
     with BinaryType {
 
-  private var index: Int = 1
+  private var counter: Int = 1
 
-  private val stmt = conn.prepareStatement(sql)
+  protected val stmt = conn.prepareStatement(sql)
 
-  def pstmt: PreparedStatement = stmt
+  protected def pstmt: PreparedStatement = stmt
 
-  def count: PStatement = {
-    index = index + 1
+  protected def count: PStatement = {
+    counter = counter + 1
     this
   }
 
-  def counter: Int = index
+  protected def index: Int = counter
 
   def createBlob: Blob = conn.createBlob
 
   def update: Int = {
-    index = 1
+    counter = 1
     pstmt.executeUpdate
   }
 
   def query: ResultSet = {
-    index = 1
+    counter = 1
     pstmt.executeQuery
   }
 
   def queryOne[A: TypeTag : ClassTag]: Option[A] = queryOne(autoparse[A])
 
   def queryOne[A](block: ResultSet => A): Option[A] = {
-    index = 1
+    counter = 1
 
     val rs = pstmt.executeQuery
     if (rs.next) Option(block(rs)) else None
@@ -63,7 +63,7 @@ case class PStatement(sql: String)(implicit conn: Connection)
   def queryList[A: TypeTag : ClassTag]: List[A] = queryList(autoparse[A])
 
   def queryList[A](block: ResultSet => A): List[A] = {
-    index = 1
+    counter = 1
 
     val rs = pstmt.executeQuery
     new Iterator[A] {
@@ -74,14 +74,14 @@ case class PStatement(sql: String)(implicit conn: Connection)
   }
 
   def addBatch(): PStatement = {
-    index = 1
+    counter = 1
 
     pstmt.addBatch()
     this
   }
 
   def executeBatch: Array[Int] = {
-    index = 1
+    counter = 1
 
     pstmt.executeBatch
   }
@@ -115,7 +115,7 @@ case class PStatement(sql: String)(implicit conn: Connection)
   }
 
   def queryLimit[A: TypeTag : ClassTag](max: Int): List[A] = {
-    index = 1
+    counter = 1
 
     var count = 0
     val buffer = mutable.ListBuffer[A]()
@@ -146,7 +146,7 @@ case class PStatement(sql: String)(implicit conn: Connection)
 
   /**
     *
-    * @param offset is index of list start from 0
+    * @param offset is counter of list start from 0
     * @param length is size of return record
     * @return
     */
@@ -176,7 +176,7 @@ case class PStatement(sql: String)(implicit conn: Connection)
 
   /**
     *
-    * @param offset is index of list start from 0
+    * @param offset is counter of list start from 0
     * @param length is size of return record
     * @return
     */

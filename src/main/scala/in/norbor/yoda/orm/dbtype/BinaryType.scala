@@ -6,22 +6,20 @@ import in.norbor.yoda.orm.PStatement
 
 trait BinaryType {
 
-  def pstmt: PreparedStatement
+  protected def pstmt: PreparedStatement
 
-  def count: PStatement
+  protected def count: PStatement
 
-  def counter: Int
+  protected def index: Int
 
-  def createBlob: Blob
-
-  def setBytes(param: Array[Byte]): PStatement = setBytes(counter, param)
+  def setBytes(param: Array[Byte]): PStatement = setBytes(index, param)
 
   private def setBytes(ind: Int, param: Array[Byte]): PStatement = {
     pstmt.setBytes(ind, param)
     count
   }
 
-  def setBlob(param: Blob): PStatement = setBlob(counter, param)
+  def setBlob(param: Blob): PStatement = setBlob(index, param)
 
   private def setBlob(ind: Int, param: Blob): PStatement = {
     pstmt.setBlob(ind, param)

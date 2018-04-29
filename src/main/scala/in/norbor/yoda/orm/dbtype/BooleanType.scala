@@ -7,20 +7,20 @@ import in.norbor.yoda.orm.PStatement
 
 trait BooleanType {
 
-  def pstmt: PreparedStatement
+  protected def pstmt: PreparedStatement
 
-  def count: PStatement
+  protected def count: PStatement
 
-  def counter: Int
+  protected def index: Int
 
-  def setBoolean(param: Boolean): PStatement = setBoolean(counter, param)
+  def setBoolean(param: Boolean): PStatement = setBoolean(index, param)
 
   private def setBoolean(ind: Int, param: Boolean): PStatement = {
     pstmt.setBoolean(ind, param)
     count
   }
 
-  def setJBoolean(param: JBoolean): PStatement = setJBoolean(counter, param)
+  def setJBoolean(param: JBoolean): PStatement = setJBoolean(index, param)
 
   private def setJBoolean(ind: Int, param: JBoolean): PStatement = {
     pstmt.setBoolean(ind, param)
