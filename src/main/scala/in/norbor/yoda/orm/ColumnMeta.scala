@@ -7,4 +7,8 @@ import in.norbor.yoda.definitions.YodaType.SchemaType
   */
 private[orm] case class ColumnMeta(valName: String
                       , schemaType: SchemaType
-                      , schemaName: String)
+                      , _schemaName: String) {
+
+  val schemaName = ColumnParser.namingStategy(_schemaName)
+
+}

@@ -1,5 +1,6 @@
 package in.norbor.yoda.orm
 
+import in.norbor.yoda.definitions.NamingConvention._
 import in.norbor.yoda.definitions.{NamingConvention, YodaType}
 import in.norbor.yoda.utilities.{Accessor, Conf, Naming}
 
@@ -11,7 +12,7 @@ import scala.reflect.runtime.universe._
   */
 private[orm] object ColumnParser {
 
-  var namingConvention: NamingConvention.Value = NamingConvention(Conf.int("yoda.naming-convention", 1))
+  var namingConvention: NamingConvention = NamingConvention(Conf.int("yoda.naming-convention", 1))
 
   private val cacheCols: mutable.Map[String, List[ColumnMeta]] = mutable.Map()
 
@@ -32,7 +33,7 @@ private[orm] object ColumnParser {
     val list = Accessor.methods[A]
       .map(sym => ColumnMeta(valName = sym.name.toString
         , schemaType = YodaType.of(sym)
-        , schemaName = namingStategy(sym.name.toString)))
+        , _schemaName = namingStategy(sym.name.toString)))
 
     cacheCols.put(aname, list)
     list

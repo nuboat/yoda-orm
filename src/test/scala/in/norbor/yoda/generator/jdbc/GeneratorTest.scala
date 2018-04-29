@@ -1,12 +1,13 @@
 package in.norbor.yoda.generator.jdbc
 
+import in.norbor.yoda.definitions.NamingConvention
 import in.norbor.yoda.orm.Generator
 import mocks.{Customer, JType}
 import org.scalatest.FunSuite
 
 class GeneratorTest extends FunSuite {
 
-  private val g = Generator()
+  private val g = Generator(NamingConvention.CamelToSnakecase)
 
   implicit val target: String = "target"
 

@@ -2,6 +2,7 @@ package in.norbor.yoda.orm
 
 import java.io.{File, FileWriter, StringReader}
 
+import in.norbor.yoda.definitions.NamingConvention.NamingConvention
 import in.norbor.yoda.utilities.Closer
 import org.apache.velocity.runtime.RuntimeSingleton
 import org.apache.velocity.{Template, VelocityContext}
@@ -12,7 +13,9 @@ import scala.reflect.runtime.universe._
 /**
   * @author Peerapat A on April 15, 2018
   */
-case class Generator() extends Closer {
+case class Generator(namingConvention: NamingConvention) extends Closer {
+
+  ColumnParser.namingConvention = namingConvention
 
   private val runtimeServices = RuntimeSingleton.getRuntimeServices
   private val tempateSQL = new Template()
@@ -59,12 +62,12 @@ case class Generator() extends Closer {
     s"\n    ${keys.find(_.schemaName == pk).map(k => s".set${k.schemaType}(e.${k.valName})").get}"
 
   private[orm] def bindResult(keys: List[ColumnMeta]): String = keys
-    .map(k => s""", ${k.valName} = rs.get${k.schemaType}("${k.schemaName}")""")
+    .map(k => s""", ${k.valName} = rs.get${k.schemaType}("${(k.schemaName)}")""")
     .mkString("\n    ")
     .replaceFirst(", ", "")
 
   private[orm] def render(fileName: String
-                           , context: VelocityContext): Unit = {
+                          , context: VelocityContext): Unit = {
     closer(newWriter(fileName)) { writer =>
       tempateSQL.merge(context, writer)
     }
