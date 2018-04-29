@@ -1,5 +1,6 @@
 package in.norbor.yoda.generator.jdbc
 
+import in.norbor.yoda.orm.Generator
 import mocks.Customer
 import org.scalatest.FunSuite
 

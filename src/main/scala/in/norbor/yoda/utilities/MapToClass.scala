@@ -16,7 +16,6 @@ object MapToClass extends LazyLogging {
 
   def apply[T](vals: Map[String, Any])(implicit cmf: ClassTag[T]): T = {
     val args = cmf.runtimeClass.getDeclaredFields
-      .filter(f => f.getType.getName != "in.norbor.yoda.orm.Meta")
       .map(f => lookup(vals, f) )
 
     cmf.runtimeClass.getConstructors

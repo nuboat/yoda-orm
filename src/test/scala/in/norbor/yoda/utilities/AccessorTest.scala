@@ -1,8 +1,7 @@
 package in.norbor.yoda.utilities
 
 import com.typesafe.scalalogging.LazyLogging
-import in.norbor.yoda.orm.Meta
-import mocks.{AllType, MetaEntity, People}
+import mocks.{AllType, People}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
 
@@ -26,16 +25,6 @@ class AccessorTest extends FunSuite with LazyLogging {
     assert(map("id") === 1)
     assert(map("name") === "Peerapat")
     assert(map("born").isInstanceOf[DateTime])
-  }
-
-  ignore("""3) Meta Information""") {
-    val meta = MetaEntity(id = 1)
-
-    val map = Accessor.toMap(meta)
-
-    assert(map("meta").isInstanceOf[Meta])
-
-    println(map)
   }
 
 }

@@ -4,7 +4,7 @@ import java.sql.{Blob, Connection, Timestamp}
 
 import com.typesafe.scalalogging.LazyLogging
 import in.norbor.yoda.jtype.JBcrypt
-import in.norbor.yoda.utilities.Accessor
+import in.norbor.yoda.utilities.{Accessor, AnnotationHelper}
 import org.joda.time.DateTime
 
 import scala.reflect.ClassTag
@@ -23,21 +23,17 @@ object PManager extends LazyLogging {
   }
 
   final def insert[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
-    val kv = Accessor.toMap[A](obj)
-
-    val meta = findMeta(kv)
-
-    val keys = ColumnParser.colNames[A]
-
+    val meta = findMeta[A]
     val table = meta.table.getOrElse(obj.getClass.getSimpleName.toLowerCase)
 
+    val keys = ColumnParser.colNames[A]
     val stmt = insertStatement(table, keys)
 
     logger.debug(s"STMT $stmt")
 
     val p = PStatement(stmt)
 
-    val kvs = kv.map(k => ColumnParser.namingStategy(k._1) -> k._2)
+    val kvs = Accessor.toMap[A](obj).map(k => ColumnParser.namingStategy(k._1) -> k._2)
 
     logger.debug(s"KV $kvs")
 
@@ -49,7 +45,7 @@ object PManager extends LazyLogging {
   final def update[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = {
     val kv = Accessor.toMap[A](obj)
 
-    val meta = findMeta(kv)
+    val meta = findMeta[A]
 
     val pk = meta.pk
 
@@ -74,10 +70,10 @@ object PManager extends LazyLogging {
     p.update
   }
 
-  final def delete[A](obj: A)(implicit conn: Connection): Int = {
+  final def delete[A: TypeTag](obj: A)(implicit conn: Connection): Int = {
     val kv = Accessor.toMap[A](obj)
 
-    val meta = findMeta(kv)
+    val meta = findMeta[A]
 
     val pk = meta.pk
 
@@ -105,10 +101,12 @@ object PManager extends LazyLogging {
     case _ => ;
   }
 
-  private[orm] def findMeta(kv: Map[String, Any]): Meta = kv
-    .find(kv => kv._2.isInstanceOf[Meta])
-    .map(kv => kv._2.asInstanceOf[Meta])
-    .getOrElse(Meta())
+  private[orm] def findMeta[T: TypeTag]: MetaSchema = {
+    AnnotationHelper.classAnnotations[T].get("TableSchema")
+      .map(a => MetaSchema(pk = a.get("pk").getOrElse(null)
+        , table = a.get("name")))
+      .getOrElse(MetaSchema())
+  }
 
   private[orm] def insertStatement(table: String, keys: List[ColumnMeta]) =
     s"""INSERT INTO $table (${keys.map(_.schemaName).mkString(", ")}) VALUES (${params(keys.size)})""".stripMargin

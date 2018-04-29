@@ -1,4 +1,4 @@
-package in.norbor.yoda.orm
+package in.norbor.yoda.utilities
 
 /**
   * Created by Peerapat A on Apr 7, 2017

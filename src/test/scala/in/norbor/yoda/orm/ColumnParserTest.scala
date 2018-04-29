@@ -1,5 +1,6 @@
 package in.norbor.yoda.orm
 
+import in.norbor.yoda.definitions.NamingConvention
 import mocks.{Account, Client}
 import org.scalatest.FunSuite
 

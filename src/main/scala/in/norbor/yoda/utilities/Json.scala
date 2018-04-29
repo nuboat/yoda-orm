@@ -32,12 +32,4 @@ object Json {
       Some(mapper.readValue[T](content))
   }
 
-  implicit class AnyJson(any: AnyRef) {
-    def toText: String = Json.toJson(any)
-  }
-
-  implicit class ListSetter(list: List[AnyRef]) {
-    def toText: String = Json.toJson(list)
-  }
-
 }

@@ -1,4 +1,4 @@
-package in.norbor.yoda.orm
+package in.norbor.yoda.definitions
 
 /**
   * Peerapat A, Sep 23, 2017

@@ -2,7 +2,7 @@ package in.norbor.yoda.orm
 
 import java.sql.{Connection, DriverManager, ResultSet, Timestamp}
 
-import in.norbor.yoda.orm.JavaSqlImprovement._
+import in.norbor.yoda.implicits.JavaSqlImprovement._
 import mocks.{Foo, JavaTest, People, Username}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
@@ -62,24 +62,6 @@ class PStatementTest extends FunSuite {
 
     assert(result.head._1 === true)
   }
-
-  test("1) PStatement set with index parameter") {
-
-    val result = PStatement("""select ?, ?, ?, ?, ?, ?, ?, ?, ?""")
-      .setBoolean(true)
-      .setInt(2, 1)
-      .setLong(3, 1L)
-      .setDouble(4, 1)
-      .setString(5, "YO")
-      .setDateTime(6, DateTime.now)
-      .setTimestamp(7, new Timestamp(System.currentTimeMillis))
-      .setDateTime(8, null)
-      .setTimestamp(9, null)
-      .queryOne(parse)
-
-    assert(result.head._1 === true)
-  }
-
 
   test("2) queryOne with auto Parser") {
 
@@ -148,9 +130,9 @@ class PStatementTest extends FunSuite {
   test("5) batch") {
 
     val insert = PStatement("INSERT INTO yoda_sql VALUES(?)")
-      .setInt(1, 1)
+      .setInt(1)
       .addBatch()
-      .setInt(1, 2)
+      .setInt(2)
       .addBatch()
       .executeBatch
 

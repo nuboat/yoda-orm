@@ -1,6 +1,5 @@
 package mocks
 
-import in.norbor.yoda.orm.Meta
 import org.joda.time.DateTime
 
 /**
@@ -8,8 +7,4 @@ import org.joda.time.DateTime
   */
 case class Human(id: Long
                   , name: String
-                  , born: DateTime) {
-
-  val meta = Meta(table = Some("humans"))
-
-}
+                  , born: DateTime)
