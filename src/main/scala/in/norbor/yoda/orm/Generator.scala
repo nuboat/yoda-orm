@@ -3,7 +3,7 @@ package in.norbor.yoda.orm
 import java.io.{File, FileWriter, StringReader}
 
 import in.norbor.yoda.definitions.NamingConvention.NamingConvention
-import in.norbor.yoda.utilities.Closer
+import in.norbor.yoda.utilities.{Closer, Naming}
 import org.apache.velocity.runtime.RuntimeSingleton
 import org.apache.velocity.{Template, VelocityContext}
 
@@ -29,12 +29,14 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     val entityFullName = symbol.fullName
     val entityName = symbol.toString.stripPrefix("class ")
 
+    val className = s"${Naming.snakecaseToCamel(table)}SQLGenerated"
+
     val keys = ColumnParser.colNames[A]
 
     val context = new VelocityContext()
     context.put("entityName", entityName)
     context.put("entityFullName", entityFullName)
-    context.put("simpleNameGenerated", s"${table}SQLGenerated")
+    context.put("simpleNameGenerated", className)
     context.put("table", table)
     context.put("idType", idType)
     context.put("idName", idName)
@@ -45,7 +47,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     context.put("insertParams", bindInsert(keys))
     context.put("updateParams", bindUpdate(keys, idName))
 
-    render(fileName = s"$target/${entityName}SQLGenerated.scala", context)
+    render(fileName = s"$target/$className.scala", context)
   }
 
   private[orm] def bindInsert(keys: List[ColumnMeta]): String = keys
@@ -62,7 +64,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     s"\n    ${keys.find(_.schemaName == pk).map(k => s".set${k.schemaType}(e.${k.valName})").get}"
 
   private[orm] def bindResult(keys: List[ColumnMeta]): String = keys
-    .map(k => s""", ${k.valName} = rs.get${k.schemaType}("${(k.schemaName)}")""")
+    .map(k => s""", ${k.valName} = rs.get${k.schemaType}("${k.schemaName}")""")
     .mkString("\n    ")
     .replaceFirst(", ", "")
 
