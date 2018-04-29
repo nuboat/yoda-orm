@@ -5,8 +5,6 @@ package in.norbor.yoda.jtype
   */
 object JBoolean {
 
-  type JBoolean = java.lang.Boolean
-
   def apply(v: Boolean): JBoolean = java.lang.Boolean.valueOf(v)
 
 }

@@ -11,18 +11,18 @@ object YodaType extends Enumeration {
   type SchemaType = Value
 
   val Boolean: Value = Value(0)
-  val JBoolean: Value = Value(1, "Boolean")
+  val JBoolean: Value = Value(1)
   val Int: Value = Value(2)
-  val JInt: Value = Value(3, "Integer")
-  val Integer: Value = Value(4, "Integer")
+  val JInt: Value = Value(3)
+  val Integer: Value = Value(4)
   val Long: Value = Value(5)
-  val JLong: Value = Value(6, "Long")
+  val JLong: Value = Value(6)
   val Double: Value = Value(7)
-  val JDouble: Value = Value(8, "Double")
+  val JDouble: Value = Value(8)
   val Float: Value = Value(9)
-  val JFloat: Value = Value(10, "Float")
+  val JFloat: Value = Value(10)
   val String: Value = Value(11)
-  val JBcrypt: Value = Value(12, "JBcrypt")
+  val JBcrypt: Value = Value(12)
   val Blob: Value = Value(13)
   val Timestamp: Value = Value(14)
   val DateTime: Value = Value(15)
@@ -33,7 +33,7 @@ object YodaType extends Enumeration {
     case "JBoolean" => JBoolean
     case "Int" => Int
     case "JInt" => JInt
-    case "Integer" => Integer
+    case "Integer" => JInt
     case "Long" => Long
     case "JLong" => JLong
     case "Double" => Double

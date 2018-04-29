@@ -5,8 +5,6 @@ package in.norbor.yoda.jtype
   */
 object JLong {
 
-  type JLong = java.lang.Long
-
   def apply(v: Long): JLong = java.lang.Long.valueOf(v)
 
 }

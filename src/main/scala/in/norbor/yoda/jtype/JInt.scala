@@ -5,8 +5,6 @@ package in.norbor.yoda.jtype
   */
 object JInt {
 
-  type JInt = java.lang.Integer
-
   def apply(v: Integer): JInt = java.lang.Integer.valueOf(v)
 
 }

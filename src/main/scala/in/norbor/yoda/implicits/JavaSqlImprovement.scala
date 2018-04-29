@@ -2,10 +2,6 @@ package in.norbor.yoda.implicits
 
 import java.sql.{ResultSet, Timestamp}
 
-import in.norbor.yoda.jtype.JBoolean.JBoolean
-import in.norbor.yoda.jtype.JDouble.JDouble
-import in.norbor.yoda.jtype.JInt.JInt
-import in.norbor.yoda.jtype.JLong.JLong
 import in.norbor.yoda.jtype._
 import org.joda.time.DateTime
 

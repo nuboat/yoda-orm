@@ -2,7 +2,7 @@ package in.norbor.yoda.orm.dbtype
 
 import java.sql.PreparedStatement
 
-import in.norbor.yoda.jtype.JDouble.JDouble
+import in.norbor.yoda.jtype.JDouble
 import in.norbor.yoda.orm.PStatement
 
 trait DoubleType {

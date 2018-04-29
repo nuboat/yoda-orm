@@ -2,7 +2,7 @@ package in.norbor.yoda.orm.dbtype
 
 import java.sql.PreparedStatement
 
-import in.norbor.yoda.jtype.JLong.JLong
+import in.norbor.yoda.jtype.JLong
 import in.norbor.yoda.orm.PStatement
 
 trait LongType {

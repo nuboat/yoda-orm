@@ -13,14 +13,13 @@ private[orm] object StandardTemplate {
       |import java.sql.{Connection, ResultSet}
       |
       |import $entityFullName
-      |import in.norbor.yoda.orm.JavaSqlImprovement._
+      |import in.norbor.yoda.implicits.JavaSqlImprovement._
       |import in.norbor.yoda.orm.PStatement
-      |import in.norbor.yoda.orm.SQLGenerated
       |
       |/**
       |  * @author Yoda B
       |  */
-      |trait $simpleNameGenerated extends SQLGenerated {
+      |trait $simpleNameGenerated {
       |
       |  protected val QUERY_ID: String = "SELECT * FROM $table WHERE $idName = ?"
       |

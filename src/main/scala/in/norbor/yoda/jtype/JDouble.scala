@@ -5,8 +5,6 @@ package in.norbor.yoda.jtype
   */
 object JDouble {
 
-  type JDouble = java.lang.Double
-
   def apply(v: Double): JDouble = java.lang.Double.valueOf(v)
 
 }
