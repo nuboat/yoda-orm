@@ -45,7 +45,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     context.put("insertParams", bindInsert(keys))
     context.put("updateParams", bindUpdate(keys, idName))
 
-    render(fileName = s"$target/${table}SQLGenerated.scala", context)
+    render(fileName = s"$target/${entityName}SQLGenerated.scala", context)
   }
 
   private[orm] def bindInsert(keys: List[ColumnMeta]): String = keys

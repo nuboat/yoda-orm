@@ -9,6 +9,6 @@ private[orm] case class ColumnMeta(valName: String
                       , schemaType: SchemaType
                       , _schemaName: String) {
 
-  val schemaName = ColumnParser.namingStategy(_schemaName)
+  val schemaName: String = ColumnParser.namingStategy(_schemaName)
 
 }

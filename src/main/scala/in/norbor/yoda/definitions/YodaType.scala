@@ -26,7 +26,7 @@ object YodaType extends Enumeration {
   val Blob: Value = Value(13)
   val Timestamp: Value = Value(14)
   val DateTime: Value = Value(15)
-  val BytesArray: Value = Value(16, "Blob")
+  val BytesArray: Value = Value(16, "Bytes")
 
   def of(sym: MethodSymbol): SchemaType = sym.simpleName match {
     case "Boolean" => Boolean
