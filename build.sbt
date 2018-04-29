@@ -2,7 +2,7 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "3.0.2"
+version := "3.0.3"
 
 scalaVersion := "2.12.6"
 
@@ -10,7 +10,7 @@ scalacOptions := Seq("-feature", "-deprecation")
 
 libraryDependencies ++= Seq(
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.5"
-  , "com.typesafe" % "config" % "1.3.2"
+  , "com.typesafe" % "config" % "1.3.3"
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0"
   , "de.svenkubiak" % "jBCrypt" % "0.4.1"
   , "joda-time" % "joda-time" % "2.9.9"
@@ -20,9 +20,9 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.h2database" % "h2" % "1.4.194" % "test"
-  , "org.scalatest" %% "scalatest" % "3.0.4" % "test"
-  , "org.postgresql" % "postgresql" % "42.1.3" % "test"
+  "com.h2database" % "h2" % "1.4.197" % "test"
+  , "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  , "org.postgresql" % "postgresql" % "42.2.2" % "test"
 )
 
 parallelExecution in Test := false
