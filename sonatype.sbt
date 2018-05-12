@@ -6,7 +6,7 @@ publishMavenStyle := true
 
 // License of your choice
 licenses := Seq("MIT" -> url("https://raw.githubusercontent.com/nuboat/yoda-orm/master/LICENSE"))
-homepage := Some(url("https://(your project url)"))
+homepage := Some(url("https://github.com/nuboat/yoda-orm"))
 scmInfo := Some(
   ScmInfo(
     url("https://github.com/nuboat/yoda-orm"),

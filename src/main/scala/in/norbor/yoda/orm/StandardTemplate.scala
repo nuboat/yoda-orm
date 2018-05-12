@@ -29,6 +29,8 @@ private[orm] object StandardTemplate {
       |
       |  protected val DELETE: String = "DELETE FROM $table WHERE $idName = ?"
       |
+      |  protected val COUNT: String = "SELECT COUNT(1) FROM $table"
+      |
       |  def insert(e: $entityName)
       |            (implicit conn: Connection): Int = PStatement(INSERT)
       |    $insertParams
@@ -47,6 +49,10 @@ private[orm] object StandardTemplate {
       |  def delete(id: $idType)(implicit conn: Connection): Int = PStatement(DELETE)
       |    .set$idType(id)
       |    .update
+      |
+      |  def count()(implicit conn: Connection): Long = PStatement(COUNT)
+      |    .queryOne(rs => rs.getLong(1))
+      |    .get
       |
       |  protected def parse(rs: ResultSet) = $entityName(
       |    $bindResult
