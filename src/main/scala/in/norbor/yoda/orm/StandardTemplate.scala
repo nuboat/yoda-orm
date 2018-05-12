@@ -14,6 +14,7 @@ private[orm] object StandardTemplate {
       |
       |import $entityFullName
       |import in.norbor.yoda.implicits.JavaSqlImprovement._
+      |import in.norbor.yoda.jtype._
       |import in.norbor.yoda.orm.PStatement
       |
       |/**
