@@ -40,6 +40,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     context.put("table", table)
     context.put("idType", idType)
     context.put("idName", idName)
+    context.put("setColumnName", setColumnName(keys))
     context.put("insertStatement", insertStatement(table, keys))
     context.put("updateStatement", updateStatement(table, idName, keys))
 
@@ -82,10 +83,14 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     new FileWriter(file)
   }
 
-  private[orm] def insertStatement(table: String, keys: List[ColumnMeta]) =
+  private[orm] def setColumnName(keys: List[ColumnMeta]): String = keys.map(c => {
+    s""""${c.schemaName}""""
+  }).mkString(", ")
+
+  private[orm] def insertStatement(table: String, keys: List[ColumnMeta]): String =
     s"""INSERT INTO $table (${keys.map(_.schemaName).mkString(", ")}) VALUES (${params(keys.size)})""".stripMargin
 
-  private[orm] def updateStatement(table: String, pk: String, columns: List[ColumnMeta]) =
+  private[orm] def updateStatement(table: String, pk: String, columns: List[ColumnMeta]): String =
     s"""UPDATE $table SET ${updateValue(columns, pk)} = ? WHERE $pk = ?""".stripMargin
 
   private[orm] def updateValue(columns: List[ColumnMeta], pk: String): String = columns

@@ -22,15 +22,17 @@ private[orm] object StandardTemplate {
       |  */
       |trait $simpleNameGenerated {
       |
-      |  protected val QUERY_ID: String = "SELECT * FROM $table WHERE $idName = ?"
+      |  private val QUERY_ID: String = "SELECT * FROM $table WHERE $idName = ?"
       |
-      |  protected val INSERT: String = "$insertStatement"
+      |  private val INSERT: String = "$insertStatement"
       |
-      |  protected val UPDATE: String = "$updateStatement"
+      |  private val UPDATE: String = "$updateStatement"
       |
-      |  protected val DELETE: String = "DELETE FROM $table WHERE $idName = ?"
+      |  private val DELETE: String = "DELETE FROM $table WHERE $idName = ?"
       |
-      |  protected val COUNT: String = "SELECT COUNT(1) FROM $table"
+      |  private val COUNT: String = "SELECT COUNT(1) FROM $table"
+      |
+      |  private val COLUMNS: Set[String] = Set($setColumnName)
       |
       |  def insert(e: $entityName)
       |            (implicit conn: Connection): Int = PStatement(INSERT)
@@ -54,6 +56,8 @@ private[orm] object StandardTemplate {
       |  def count()(implicit conn: Connection): Long = PStatement(COUNT)
       |    .queryOne(rs => rs.getLong(1))
       |    .get
+      |
+      |  protected def verifyName(p: String): Unit = if (!COLUMNS.contains(p)) throw new IllegalArgumentException(s"$p has problem.")
       |
       |  protected def parse(rs: ResultSet) = $entityName(
       |    $bindResult

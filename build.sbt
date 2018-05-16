@@ -2,7 +2,7 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "3.1.1"
+version := "3.2.1"
 
 scalaVersion := "2.12.6"
 
@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0"
   , "de.svenkubiak" % "jBCrypt" % "0.4.1"
   , "joda-time" % "joda-time" % "2.9.9"
-  , "org.apache.velocity" % "velocity" % "1.7"
+  , "org.apache.velocity" % "velocity" % "1.7" % "compileonly"
   , "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
 
