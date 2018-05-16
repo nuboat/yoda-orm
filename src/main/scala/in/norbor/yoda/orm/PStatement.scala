@@ -162,7 +162,9 @@ case class PStatement(sql: String)(implicit conn: Connection)
         count = count + 1
       }
     } catch {
-      case t: Throwable => throw new IllegalStateException(s"Total records are $count less than $offset.")
+      case t: Throwable =>
+        logger.warn(t.getMessage)
+        throw new IllegalStateException(s"Total records are $count less than $offset.")
     }
 
     count = 0
@@ -192,7 +194,9 @@ case class PStatement(sql: String)(implicit conn: Connection)
         count = count + 1
       }
     } catch {
-      case t: Throwable => throw new IllegalStateException(s"Total records are $count less than $offset.")
+      case t: Throwable =>
+        logger.warn(t.getMessage)
+        throw new IllegalStateException(s"Total records are $count less than $offset.")
     }
 
     count = 0

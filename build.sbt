@@ -6,7 +6,13 @@ version := "3.2.1"
 
 scalaVersion := "2.12.6"
 
-scalacOptions := Seq("-feature", "-deprecation")
+scalacOptions := Seq("-feature", "-deprecation", "-unchecked", "-Xlint"
+  , "-Ywarn-dead-code"
+  , "-Ywarn-inaccessible"
+  , "-Ywarn-nullary-override"
+  , "-Ywarn-numeric-widen"
+  , "-Ywarn-value-discard"
+  , "-Ywarn-unused")
 
 libraryDependencies ++= Seq(
   "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.5"
@@ -14,7 +20,7 @@ libraryDependencies ++= Seq(
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0"
   , "de.svenkubiak" % "jBCrypt" % "0.4.1"
   , "joda-time" % "joda-time" % "2.9.9"
-  , "org.apache.velocity" % "velocity" % "1.7" % "compileonly"
+  , "org.apache.velocity" % "velocity" % "1.7" % "compile"
   , "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
 

@@ -6,8 +6,6 @@ import in.norbor.yoda.definitions.NamingConvention.NamingConvention
 import in.norbor.yoda.utilities.{Closer, Naming}
 import org.apache.velocity.runtime.RuntimeSingleton
 import org.apache.velocity.{Template, VelocityContext}
-
-import scala.language.postfixOps
 import scala.reflect.runtime.universe._
 
 /**

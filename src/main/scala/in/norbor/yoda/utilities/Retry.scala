@@ -17,7 +17,9 @@ object Retry extends LazyLogging {
     case Success(x) => x
 
     case Failure(e) =>
-      logger.error(s"Failed $count / $limit times")
+      logger.warn(s"Failed $count / $limit times")
+      logger.error(e.getMessage, e)
+
       if (count < limit) {
         Thread.sleep(backoff.toMillis)
         Retry(limit = limit, count = count + 1, backoff = backoff) {

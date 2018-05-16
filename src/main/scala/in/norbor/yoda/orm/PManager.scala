@@ -90,7 +90,7 @@ object PManager extends LazyLogging {
     case _: Boolean => p.setBoolean(v.asInstanceOf[Boolean])
     case _: Int => p.setInt(v.asInstanceOf[Int])
     case _: Long => p.setLong(v.asInstanceOf[Long])
-    case _: Float => p.setDouble(v.asInstanceOf[Float])
+    case _: Float => p.setDouble(v.asInstanceOf[Double])
     case _: Double => p.setDouble(v.asInstanceOf[Double])
     case _: String => p.setString(v.asInstanceOf[String])
     case _: Timestamp => p.setTimestamp(v.asInstanceOf[Timestamp])
