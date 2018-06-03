@@ -16,21 +16,21 @@ object JavaSqlImprovement {
 
     def getJBcrypt(key: String): JBcrypt = Option(rs.getString(key)).map(v => JBcrypt(v)).orNull
 
-    def getJBoolean(ind: Int): JBoolean = Option(rs.getBoolean(ind)).map(v => JBoolean(v)).orNull
+    def getJBoolean(ind: Int): JBoolean = JBoolean(rs.getBoolean(ind))
 
-    def getJBoolean(key: String): JBoolean = Option(rs.getBoolean(key)).map(v => JBoolean(v)).orNull
+    def getJBoolean(key: String): JBoolean = JBoolean(rs.getBoolean(key))
 
-    def getJInt(ind: Int): JInt = Option(rs.getInt(ind)).map(v => JInt(v)).orNull
+    def getJInt(ind: Int): JInt = JInt(rs.getInt(ind))
 
-    def getJInt(key: String): JInt = Option(rs.getInt(key)).map(v => JInt(v)).orNull
+    def getJInt(key: String): JInt = JInt(rs.getInt(key))
 
-    def getJLong(ind: Int): JLong = Option(rs.getLong(ind)).map(v => JLong(v)).orNull
+    def getJLong(ind: Int): JLong = JLong(rs.getLong(ind))
 
-    def getJLong(key: String): JLong = Option(rs.getLong(key)).map(v => JLong(v)).orNull
+    def getJLong(key: String): JLong = JLong(rs.getLong(key))
 
-    def getJDouble(ind: Int): JDouble = Option(rs.getDouble(ind)).map(v => JDouble(v)).orNull
+    def getJDouble(ind: Int): JDouble = JDouble(rs.getDouble(ind))
 
-    def getJDouble(key: String): JDouble = Option(rs.getDouble(key)).map(v => JDouble(v)).orNull
+    def getJDouble(key: String): JDouble = JDouble(rs.getDouble(key))
 
     def getDateTime(ind: Int): DateTime = parseDateTime(rs.getTimestamp(ind))
 
