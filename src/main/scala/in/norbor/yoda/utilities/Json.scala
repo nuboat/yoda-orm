@@ -29,7 +29,7 @@ object Json {
     if (content == null || content.isEmpty)
       None
     else
-      Some(mapper.readValue[T](content))
+      Option(mapper.readValue[T](content))
   }
 
 }

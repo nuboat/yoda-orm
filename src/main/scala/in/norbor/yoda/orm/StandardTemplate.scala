@@ -45,9 +45,9 @@ private[orm] object StandardTemplate {
       |    .queryOne(parse)
       |
       |  def update(e: $entityName)
-      |            (implicit conn: Connection): Option[$entityName] = PStatement(UPDATE)
+      |            (implicit conn: Connection): Int = PStatement(UPDATE)
       |    $updateParams
-      |    .queryOne(parse)
+      |    .update
       |
       |  def delete(id: $idType)(implicit conn: Connection): Int = PStatement(DELETE)
       |    .set$idType(id)
