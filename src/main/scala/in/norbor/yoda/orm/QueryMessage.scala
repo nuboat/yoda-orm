@@ -16,7 +16,7 @@ case class QueryMessage(offset: Int
     s"WHERE ${conditions.mkString(joinWith)}"
   }
 
-  def orderBy(): String = {
+  def orderBy: String = {
     val sorting = orders
       .map(o => s"${o.name} ${o.sortBy}")
 
@@ -25,9 +25,13 @@ case class QueryMessage(offset: Int
 
   private def joinWith: String = if (isOR) " OR " else "ELSE"
 
-  private def buildCondition(f: FilterItem): String =
-    s"${f.operator.map(_.toLowerCase).filter(operatorSet.contains).getOrElse("=")} ?"
+  private def buildCondition(f: FilterItem): String = {
+    if (operatorSet(f.operator))
+      throw new IllegalArgumentException(s"Does not support ${f.operator}")
 
-  private lazy val operatorSet = Set("=", "<=", ">=", ">", "<", "like")
+    s"${f.operator} ?"
+  }
+
+  private lazy val operatorSet = Set("=", "<=", ">=", ">", "<", "LIKE")
 
 }

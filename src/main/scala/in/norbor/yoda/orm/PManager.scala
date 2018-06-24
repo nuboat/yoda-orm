@@ -86,8 +86,7 @@ object PManager extends LazyLogging
 
   private[orm] def findMeta[T: TypeTag]: MetaSchema = {
     AnnotationHelper.classAnnotations[T].get("TableSchema")
-      .map(a => MetaSchema(pk = a.get("pk").getOrElse(null)
-        , table = a.get("name")))
+      .map(a => MetaSchema(pk = a.get("pk").orNull, table = a.get("name")))
       .getOrElse(MetaSchema())
   }
 

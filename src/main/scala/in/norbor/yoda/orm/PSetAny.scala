@@ -10,7 +10,7 @@ import org.joda.time.DateTime
   */
 trait PSetAny {
 
-  def set(p: PStatement, v: Any): Unit = v match {
+  def set(p: PStatement, v: Any): PStatement = v match {
     case _: Boolean => p.setBoolean(v.asInstanceOf[Boolean])
     case _: Int => p.setInt(v.asInstanceOf[Int])
     case _: Long => p.setLong(v.asInstanceOf[Long])
@@ -22,7 +22,7 @@ trait PSetAny {
     case _: JBcrypt => p.setString(v.asInstanceOf[JBcrypt].hash)
     case _: Blob => p.setBlob(v.asInstanceOf[Blob])
     case _: Array[Byte] => p.setBytes(v.asInstanceOf[Array[Byte]])
-    case _ => ;
+    case _ => p;
   }
 
 }
