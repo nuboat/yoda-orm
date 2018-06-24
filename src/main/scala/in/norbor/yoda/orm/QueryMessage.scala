@@ -13,14 +13,14 @@ case class QueryMessage(offset: Int
     val conditions = filters
       .map(f => s"${f.name} ${buildCondition(f)}")
 
-    s"WHERE ${conditions.mkString(joinWith)}"
+    if (conditions.isEmpty) "" else s"WHERE ${conditions.mkString(joinWith)}"
   }
 
   def orderBy: String = {
     val sorting = orders
       .map(o => s"${o.name} ${o.sortBy}")
 
-    s"ORDER BY ${sorting.mkString(" ")}"
+    if (sorting.isEmpty) "" else s"ORDER BY ${sorting.mkString(" ")}"
   }
 
   private def joinWith: String = if (isOR) " OR " else "ELSE"
