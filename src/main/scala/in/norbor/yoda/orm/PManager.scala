@@ -1,20 +1,18 @@
 package in.norbor.yoda.orm
 
-import java.sql.{Blob, Connection, Timestamp}
+import java.sql.Connection
 
 import com.typesafe.scalalogging.LazyLogging
-import in.norbor.yoda.jtype.JBcrypt
 import in.norbor.yoda.utilities.{Accessor, AnnotationHelper}
-import org.joda.time.DateTime
 
 import scala.reflect.ClassTag
 import scala.reflect.runtime.universe._
 
-
 /**
   * Created by Peerapat A on Mar 31, 2017
   */
-object PManager extends LazyLogging {
+object PManager extends LazyLogging
+  with PSetAny {
 
   def apply[A: TypeTag : ClassTag](obj: A)(implicit conn: Connection): Int = try {
     insert(obj)
@@ -84,21 +82,6 @@ object PManager extends LazyLogging {
          | DELETE $table WHERE $pk = ${kv(pk)}
        """.stripMargin)
       .update
-  }
-
-  private[orm] def set(p: PStatement, v: Any) = v match {
-    case _: Boolean => p.setBoolean(v.asInstanceOf[Boolean])
-    case _: Int => p.setInt(v.asInstanceOf[Int])
-    case _: Long => p.setLong(v.asInstanceOf[Long])
-    case _: Float => p.setDouble(v.asInstanceOf[Double])
-    case _: Double => p.setDouble(v.asInstanceOf[Double])
-    case _: String => p.setString(v.asInstanceOf[String])
-    case _: Timestamp => p.setTimestamp(v.asInstanceOf[Timestamp])
-    case _: DateTime => p.setDateTime(v.asInstanceOf[DateTime])
-    case _: JBcrypt => p.setString(v.asInstanceOf[JBcrypt].hash)
-    case _: Blob => p.setBlob(v.asInstanceOf[Blob])
-    case _: Array[Byte] => p.setBytes(v.asInstanceOf[Array[Byte]])
-    case _ => ;
   }
 
   private[orm] def findMeta[T: TypeTag]: MetaSchema = {
