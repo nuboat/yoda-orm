@@ -26,7 +26,7 @@ case class QueryMessage(offset: Int
   private def joinWith: String = if (isOR) " OR " else "ELSE"
 
   private def buildCondition(f: FilterItem): String = {
-    if (operatorSet(f.operator))
+    if (!operatorSet.contains(f.operator))
       throw new IllegalArgumentException(s"Does not support ${f.operator}")
 
     s"${f.operator} ?"

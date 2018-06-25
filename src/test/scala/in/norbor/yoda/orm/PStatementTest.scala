@@ -99,7 +99,7 @@ class PStatementTest extends FunSuite {
       PStatement("""select 1.0 as amount""")
         .queryOne[Foo]
     } catch {
-      case u: IllegalArgumentException => succeed
+      case _: IllegalArgumentException => succeed
       case _: Throwable => fail("")
     }
 
