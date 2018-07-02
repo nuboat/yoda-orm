@@ -10,7 +10,7 @@ import scala.util.Try
   */
 trait Closer extends LazyLogging {
 
-  def closer[T <: {def close()}, R](resource: T)(block: T => R): R = try {
+  def closer[T <: {def close(): Unit}, R](resource: T)(block: T => R): R = try {
     block(resource)
   } finally {
     Try(resource.close()).failed foreach { t => logger.warn(t.getMessage)}

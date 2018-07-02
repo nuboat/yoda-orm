@@ -1,6 +1,6 @@
 package in.norbor.yoda.orm
 
-import java.sql.DriverManager
+import java.sql.{Connection, DriverManager}
 
 import in.norbor.yoda.definitions.NamingConvention
 import mocks.Citizen
@@ -13,7 +13,7 @@ class PManagerCamelTest extends FunSuite with BeforeAndAfterEach {
 
   Class.forName("org.h2.Driver")
 
-  private implicit val conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
+  private implicit val conn: Connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")
 
   override def beforeEach(): Unit = {
     ColumnParser.namingConvention = NamingConvention.CamelToSnakecase
