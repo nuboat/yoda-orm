@@ -13,7 +13,7 @@ case class QueryMessage(offset: Int
     val conditions = filters
       .map(f => s"${f.name} ${buildCondition(f)}")
 
-    if (conditions.isEmpty) "" else s"WHERE ${conditions.mkString(joinWith)}"
+    conditions.mkString(joinWith)
   }
 
   def orderBy: String = {
@@ -23,7 +23,7 @@ case class QueryMessage(offset: Int
     if (sorting.isEmpty) "" else s"ORDER BY ${sorting.mkString(" ")}"
   }
 
-  private def joinWith: String = if (isOR) " OR " else "ELSE"
+  private def joinWith: String = if (isOR) " OR " else " AND "
 
   private def buildCondition(f: FilterItem): String = {
     if (!operatorSet.contains(f.operator))
