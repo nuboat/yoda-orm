@@ -32,6 +32,6 @@ case class QueryMessage(offset: Int
     s"${f.operator} ?"
   }
 
-  private lazy val operatorSet = Set("=", "<=", ">=", ">", "<", "LIKE")
+  private lazy val operatorSet = Set("=", "<=", ">=", ">", "<", "<>", "LIKE")
 
 }

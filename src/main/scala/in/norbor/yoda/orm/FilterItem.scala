@@ -5,4 +5,4 @@ package in.norbor.yoda.orm
   */
 case class FilterItem(name: String
                       , operator: String
-                      , value: String)
+                      , value: AnyVal)
