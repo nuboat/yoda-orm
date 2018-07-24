@@ -5,9 +5,10 @@ package in.norbor.yoda.orm
   */
 case class QueryMessage(offset: Int
                         , pageSize: Int
-                        , filters: Seq[FilterItem] = Seq.empty
-                        , orders: Seq[Order] = Seq.empty
-                        , isOR: Boolean = true) {
+                        , dateFilter: DateFilterItem
+                        , filters: Seq[FilterItem]
+                        , orders: Seq[Order]
+                        , isOR: Boolean) {
 
   def whereCondition: String = {
     val conditions = filters
