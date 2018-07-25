@@ -7,7 +7,6 @@ sbt publishSigned
 sbt sonatypeRelease
 ``` 
 
-
 BTW, This project is completely opensource and feel free to PR
 
 
