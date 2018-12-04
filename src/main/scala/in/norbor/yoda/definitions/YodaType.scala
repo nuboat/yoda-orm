@@ -22,7 +22,6 @@ object YodaType extends Enumeration {
   val Float: Value = Value(9)
   val JFloat: Value = Value(10)
   val String: Value = Value(11)
-  val JBcrypt: Value = Value(12)
   val Blob: Value = Value(13)
   val Timestamp: Value = Value(14)
   val DateTime: Value = Value(15)
@@ -41,7 +40,6 @@ object YodaType extends Enumeration {
     case "Float" => Float
     case "JFloat" => JFloat
     case "String" => String
-    case "JBcrypt" => JBcrypt
     case "Blob" => Blob
     case "Timestamp" => Timestamp
     case "DateTime" => DateTime

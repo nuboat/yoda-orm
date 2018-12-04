@@ -21,17 +21,17 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
   tempateSQL.setData(runtimeServices.parse(new StringReader(StandardTemplate.jdbc), StandardTemplate.name))
   tempateSQL.initDocument()
 
-  def gen[A: TypeTag](table: String, idName: String, idType: String)
+  def gen[A: TypeTag](table: String, idName: String, idType: String
+                      , packageName: String = "in.norbor.yoda.orm.generated")
                      (implicit target: String): Unit = {
     val symbol = typeOf[A].typeSymbol
     val entityFullName = symbol.fullName
     val entityName = symbol.toString.stripPrefix("class ")
-
     val className = s"${Naming.snakecaseToCamel(table)}SQLGenerated"
-
     val keys = ColumnParser.colNames[A]
 
     val context = new VelocityContext()
+    context.put("packageName", packageName)
     context.put("entityName", entityName)
     context.put("entityFullName", entityFullName)
     context.put("simpleNameGenerated", className)

@@ -2,9 +2,9 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "3.3.8"
+version := "4.0.0b"
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.7"
 
 scalacOptions := Seq("-feature", "-deprecation", "-unchecked", "-Xlint"
   , "-Ywarn-dead-code"
@@ -15,13 +15,13 @@ scalacOptions := Seq("-feature", "-deprecation", "-unchecked", "-Xlint"
   , "-Ywarn-unused")
 
 libraryDependencies ++= Seq(
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.6"
+  "com.zaxxer" % "HikariCP" % "3.2.0"
   , "com.typesafe" % "config" % "1.3.3"
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0"
-  , "de.svenkubiak" % "jBCrypt" % "0.4.1"
   , "joda-time" % "joda-time" % "2.9.9"
-  , "org.apache.velocity" % "velocity" % "1.7" % "compile"
   , "org.scala-lang" % "scala-reflect" % scalaVersion.value
+//  , "com.datastax.cassandra" % "cassandra-driver-core" % "3.6.0" % "compile"
+  , "org.apache.velocity" % "velocity" % "1.7" % "compile"
 )
 
 libraryDependencies ++= Seq(
@@ -31,8 +31,6 @@ libraryDependencies ++= Seq(
 )
 
 parallelExecution in Test := false
-
-//crossScalaVersions := Seq("2.11.11", "2.12.6")
 
 publishTo := Some(
   if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging

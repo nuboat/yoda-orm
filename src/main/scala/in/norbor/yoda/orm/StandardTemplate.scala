@@ -8,7 +8,7 @@ private[orm] object StandardTemplate {
   private[orm] val name = "SQLGenerated"
 
   private[orm] val jdbc: String =
-    """package in.norbor.yoda.orm.generated
+    """package $packageName
       |
       |import java.sql.{Connection, ResultSet}
       |

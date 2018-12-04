@@ -10,7 +10,7 @@ import scala.reflect.runtime.universe._
   *
   * @author Peerapat A on April 21, 2018
   */
-object AnnotationHelper {
+private[utilities] object AnnotationHelper {
 
   type AnnotationName = String
   type AnnotationField = String

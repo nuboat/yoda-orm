@@ -2,7 +2,6 @@ package in.norbor.yoda.orm
 
 import java.sql.{Blob, Timestamp}
 
-import in.norbor.yoda.jtype.JBcrypt
 import org.joda.time.DateTime
 
 /**
@@ -19,7 +18,6 @@ trait PSetAny {
     case _: String => p.setString(v.asInstanceOf[String])
     case _: Timestamp => p.setTimestamp(v.asInstanceOf[Timestamp])
     case _: DateTime => p.setDateTime(v.asInstanceOf[DateTime])
-    case _: JBcrypt => p.setString(v.asInstanceOf[JBcrypt].hash)
     case _: Blob => p.setBlob(v.asInstanceOf[Blob])
     case _: Array[Byte] => p.setBytes(v.asInstanceOf[Array[Byte]])
     case _ => p;

@@ -12,10 +12,6 @@ object JavaSqlImprovement {
 
   implicit class ResultSetImprovement(rs: ResultSet) {
 
-    def getJBcrypt(ind: Int): JBcrypt = Option(rs.getString(ind)).map(v => JBcrypt(v)).orNull
-
-    def getJBcrypt(key: String): JBcrypt = Option(rs.getString(key)).map(v => JBcrypt(v)).orNull
-
     def getJBoolean(ind: Int): JBoolean = Option(rs.getBoolean(ind)).map(v => JBoolean(v)).orNull
 
     def getJBoolean(key: String): JBoolean = Option(rs.getBoolean(key)).map(v => JBoolean(v)).orNull
