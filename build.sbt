@@ -6,6 +6,8 @@ version := "4.0.0b"
 
 scalaVersion := "2.13.0-RC3"
 
+updateOptions := updateOptions.value.withGigahorse(false)
+
 scalacOptions := Seq("-feature", "-deprecation", "-unchecked", "-Xlint"
   , "-Ywarn-dead-code"
   , "-Ywarn-numeric-widen"
