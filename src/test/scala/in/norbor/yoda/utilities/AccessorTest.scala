@@ -4,11 +4,12 @@ import com.typesafe.scalalogging.LazyLogging
 import mocks.{AllType, People}
 import org.joda.time.DateTime
 import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Created by Peerapat A on Mar 22, 2017
   */
-class AccessorTest extends FunSuite with LazyLogging {
+class AccessorTest extends AnyFunSuite with LazyLogging {
 
   test("""1) Get MethodSymbols of Classs""") {
     val methods = Accessor.methods[AllType]
@@ -16,7 +17,7 @@ class AccessorTest extends FunSuite with LazyLogging {
     methods.foreach(m => println(s"${m.fullName} ${m.info}"))
   }
 
-  ignore("""2) Convert class to Map data""") {
+  test("""2) Convert class to Map data""") {
     val people = People(id = 1, name = "Peerapat", born = DateTime.now)
 
     val map = Accessor.toMap(people)

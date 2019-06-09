@@ -1,5 +1,6 @@
 package in.norbor.yoda.utilities
 
+import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
 /**
@@ -17,10 +18,10 @@ object Accessor {
   }
 
   def toMap[A](cc: A): Map[String, Any] =
-    (Map[String, Any]() /: cc.getClass.getDeclaredFields) {
-      (a, f) =>
+    cc.getClass.getDeclaredFields.foldLeft(mutable.Map[String, Any]())(
+      (a, f) => {
         f.setAccessible(true)
-        a + (f.getName -> f.get(cc))
-    }
+        a.addOne(f.getName -> f.get(cc))
+      }).toMap
 
 }

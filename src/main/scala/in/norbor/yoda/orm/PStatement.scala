@@ -3,11 +3,7 @@ package in.norbor.yoda.orm
 import java.sql.{Blob, Connection, PreparedStatement, ResultSet}
 
 import com.typesafe.scalalogging.LazyLogging
-import in.norbor.yoda.implicits.JavaSqlImprovement._
-import in.norbor.yoda.implicits.MethodSymbolImprovement._
 import in.norbor.yoda.orm.dbtype._
-
-import scala.reflect.runtime.universe._
 
 /**
   * Created by Peerapat A on Feb 5, 2017
@@ -77,25 +73,6 @@ case class PStatement(sql: String)(implicit conn: Connection)
     counter = 1
 
     pstmt.executeBatch
-  }
-
-  private def lookup(rs: ResultSet, sym: MethodSymbol, col: String) = sym.simpleName match {
-    case "Boolean" => rs.getBoolean(col)
-    case "JBoolean" => rs.getJBoolean(col)
-    case "Int" | "Integer" => rs.getInt(col)
-    case "JInt" => rs.getJInt(col)
-    case "Long" => rs.getLong(col)
-    case "JLong" => rs.getJLong(col)
-    case "Double" => rs.getDouble(col)
-    case "JDouble" => rs.getJDouble(col)
-    case "Float" => rs.getDouble(col)
-    case "JFloat" => rs.getJDouble(col)
-    case "String" => rs.getString(col)
-    case "Blob" => rs.getBlob(col)
-    case "Timestamp" => rs.getTimestamp(col)
-    case "DateTime" => rs.getDateTime(col)
-
-    case _ => throw new IllegalArgumentException(s"Does not support ${sym.info.toString}")
   }
 
 }
