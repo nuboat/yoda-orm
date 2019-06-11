@@ -2,12 +2,12 @@ package in.norbor.yoda.utilities
 
 import mocks.People
 import org.joda.time.DateTime
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Created by Peerapat A on Mar 22, 2017
   */
-class MapToClassTest extends FunSuite {
+class MapToClassTest extends AnyFunSuite {
 
   test("""1) Map is key-value the same as constructor params.""") {
     val map = Map[String, Any]("id" -> 1L, "name" -> "Peerapat", "born" -> DateTime.now)

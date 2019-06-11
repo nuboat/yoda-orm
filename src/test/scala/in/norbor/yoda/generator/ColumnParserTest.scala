@@ -1,13 +1,13 @@
-package in.norbor.yoda.orm
+package in.norbor.yoda.generator
 
 import in.norbor.yoda.definitions.NamingConvention
 import mocks.{Account, Client}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Peerapat A, Sep 30, 2017
   */
-class ColumnParserTest extends FunSuite {
+class ColumnParserTest extends AnyFunSuite {
 
   test("1) Simple") {
     ColumnParser.namingConvention = NamingConvention.Simple

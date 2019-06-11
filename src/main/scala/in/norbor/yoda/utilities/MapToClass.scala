@@ -11,7 +11,7 @@ import scala.reflect._
   *
   * Created by Peerapat A on Mar 21, 2017
   */
-private[utilities] object MapToClass extends LazyLogging {
+object MapToClass extends LazyLogging {
 
   def apply[T](vals: Map[String, Any])(implicit cmf: ClassTag[T]): T = {
     val args = cmf.runtimeClass.getDeclaredFields

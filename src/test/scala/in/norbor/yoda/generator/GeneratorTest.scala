@@ -1,7 +1,7 @@
-package in.norbor.yoda.generator.jdbc
+package in.norbor.yoda.generator
 
 import in.norbor.yoda.definitions.NamingConvention
-import in.norbor.yoda.orm.Generator
+import in.norbor.yoda.generator.Generator
 import mocks.{Customer, JType}
 import org.scalatest.FunSuite
 

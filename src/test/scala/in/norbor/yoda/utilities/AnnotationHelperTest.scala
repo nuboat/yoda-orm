@@ -1,12 +1,12 @@
 package in.norbor.yoda.utilities
 
 import mocks.OrmAnnotate
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * @author Peerapat A on April 22, 2018
   */
-class AnnotationHelperTest extends FunSuite {
+class AnnotationHelperTest extends AnyFunSuite {
 
   test("1. Class Annotations") {
     val meta = AnnotationHelper.classAnnotations[OrmAnnotate]

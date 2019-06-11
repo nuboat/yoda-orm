@@ -1,9 +1,9 @@
 package in.norbor.yoda.orm
 
 import in.norbor.yoda.utilities.Naming
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class NamingTest extends FunSuite {
+class NamingTest extends AnyFunSuite {
 
   test("testCamelToSnakecase 1") {
     val input = "thisIsA1Test"

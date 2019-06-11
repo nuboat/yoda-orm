@@ -1,4 +1,4 @@
-package in.norbor.yoda.orm
+package in.norbor.yoda.generator
 
 import in.norbor.yoda.definitions.NamingConvention._
 import in.norbor.yoda.definitions.{NamingConvention, YodaType}
@@ -10,7 +10,7 @@ import scala.reflect.runtime.universe._
 /**
   * @author Peerapat A on Sep 23, 2017
   */
-private[orm] object ColumnParser {
+private[generator] object ColumnParser {
 
   var namingConvention: NamingConvention = NamingConvention(Conf.int("yoda.naming-convention", 1))
 

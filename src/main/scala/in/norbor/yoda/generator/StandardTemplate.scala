@@ -1,13 +1,13 @@
-package in.norbor.yoda.orm
+package in.norbor.yoda.generator
 
 /**
   * @author Peerapat A on April 15, 2018
   */
-private[orm] object StandardTemplate {
+private[generator] object StandardTemplate {
 
-  private[orm] val name = "SQLGenerated"
+  private[generator] val name = "SQLGenerated"
 
-  private[orm] val jdbc: String =
+  private[generator] val jdbc: String =
     """package $packageName
       |
       |import java.sql.{Connection, ResultSet}

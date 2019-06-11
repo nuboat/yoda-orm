@@ -1,9 +1,9 @@
 package in.norbor.yoda.utilities
 
 import com.typesafe.config.ConfigException
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class ConfTest extends FunSuite {
+class ConfTest extends AnyFunSuite {
 
   test("test apply with default") {
 

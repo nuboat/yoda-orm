@@ -3,7 +3,6 @@ package in.norbor.yoda.utilities
 import com.typesafe.scalalogging.LazyLogging
 import mocks.{AllType, People}
 import org.joda.time.DateTime
-import org.scalatest.FunSuite
 import org.scalatest.funsuite.AnyFunSuite
 
 /**

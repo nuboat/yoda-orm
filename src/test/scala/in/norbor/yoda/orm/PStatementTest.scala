@@ -5,12 +5,12 @@ import java.sql.{Connection, DriverManager, ResultSet, Timestamp}
 import in.norbor.yoda.implicits.JavaSqlImprovement._
 import mocks.People
 import org.joda.time.DateTime
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 /**
   * Created by Peerapat A on Feb 5, 2017
   */
-class PStatementTest extends FunSuite {
+class PStatementTest extends AnyFunSuite {
 
   Class.forName("org.h2.Driver")
 
