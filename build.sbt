@@ -17,7 +17,7 @@ scalacOptions := Seq("-feature", "-deprecation", "-unchecked", "-Xlint"
 libraryDependencies ++= Seq(
   "com.zaxxer" % "HikariCP" % "3.3.1"
   , "com.typesafe" % "config" % "1.3.4"
-  , "com.typesafe.scala-logging" % "scala-logging_2.13.0-RC3" % "3.9.2"
+  , "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
   , "joda-time" % "joda-time" % "2.10.2"
   , "org.apache.velocity" % "velocity" % "1.7" % "compile"
 )
