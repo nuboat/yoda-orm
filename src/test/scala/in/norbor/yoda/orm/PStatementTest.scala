@@ -2,6 +2,7 @@ package in.norbor.yoda.orm
 
 import java.sql.{Connection, DriverManager, ResultSet, Timestamp}
 
+import com.typesafe.scalalogging.LazyLogging
 import in.norbor.yoda.implicits.JavaSqlImprovement._
 import mocks.People
 import org.joda.time.DateTime
@@ -36,7 +37,6 @@ class PStatementTest extends AnyFunSuite {
 
     PStatement("DROP TABLE IF EXISTS yoda_sql; CREATE TABLE yoda_sql (id INTEGER);")
       .update
-
   }
 
   test("0) update") {
@@ -63,16 +63,6 @@ class PStatementTest extends AnyFunSuite {
     assert(result.head._1 === true)
   }
 
-  ignore("2) queryOne with auto Parser") {
-
-//    val people = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
-//      .queryOne[People]
-//
-//    assert(people.head.id === 1)
-//    assert(people.head.name === "Peerapat")
-//    assert(people.head.born.getMillis <= DateTime.now.getMillis)
-  }
-
   test("3) queryList with parse method") {
 
     val peoples = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
@@ -81,28 +71,6 @@ class PStatementTest extends AnyFunSuite {
     assert(peoples.head.id === 1)
     assert(peoples.head.name === "Peerapat")
     assert(peoples.head.born.getMillis <= DateTime.now.getMillis)
-  }
-
-  ignore("4) queryList with auto parse") {
-
-//    val peoples = PStatement("""select 1 as id, 'Peerapat' as name, now() as born;""")
-//      .queryList[People]
-//
-//    assert(peoples.head.id === 1)
-//    assert(peoples.head.name === "Peerapat")
-//    assert(peoples.head.born.getMillis <= DateTime.now.getMillis)
-  }
-
-  test("4) queryOne with auto Parser case lookup unsupport") {
-
-//    try {
-//      PStatement("""select 1.0 as amount""")
-//        .queryOne[Foo]
-//    } catch {
-//      case _: IllegalArgumentException => succeed
-//      case _: Throwable => fail("")
-//    }
-
   }
 
   test("5) batch") {
@@ -117,22 +85,6 @@ class PStatementTest extends AnyFunSuite {
     assert(insert.length === 2)
   }
 
-  test("7) query with java primitive type") {
-//    PStatement(
-//      """
-//        |DROP TABLE IF EXISTS javatest;
-//        |CREATE TABLE javatest (ida INT, idb BIGINT, idc DOUBLE);
-//        |
-//        |INSERT INTO javatest(ida, idb, idc) VALUES
-//        | (1, 2, 3.3);
-//      """.stripMargin)
-//      .update
-//
-//    val javaTest = PStatement("select * from javatest;")
-//      .queryOne[JavaTest]
-//
-//    assert(javaTest !== null)
-  }
 
   private def parse(rs: ResultSet): (Boolean, Int, Long, Double, String, DateTime, Timestamp) = (rs.getBoolean(1)
     , rs.getInt(2)

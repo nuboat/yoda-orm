@@ -9,9 +9,8 @@ import scala.reflect.runtime.universe._
 object Accessor {
 
   def methods[T: TypeTag]: List[MethodSymbol] = {
-    val x = typeOf[T]
+    typeOf[T]
       .members
-    x
       .collect {
         case m: MethodSymbol if m.isCaseAccessor => m
       }.toList.reverse

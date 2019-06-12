@@ -2,7 +2,7 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "4.0.0"
+version := "4.0.1"
 
 scalaVersion := "2.13.0"
 

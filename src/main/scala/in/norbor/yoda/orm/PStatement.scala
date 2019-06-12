@@ -36,11 +36,13 @@ case class PStatement(sql: String)(implicit conn: Connection)
 
   def update: Int = {
     counter = 1
+
     pstmt.executeUpdate
   }
 
   def query: ResultSet = {
     counter = 1
+
     pstmt.executeQuery
   }
 
