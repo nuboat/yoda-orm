@@ -5,7 +5,7 @@ Simple Scala case class ORM,
 ```Publish Command
 sbt publishSigned
 sbt sonatypeRelease
-``` 
+```
 
 BTW, This project is completely opensource and feel free to PR
 
@@ -27,7 +27,7 @@ Compare: PreparedStatement and PStatement
 ```
 
 ```PStatement
-    FIND : SELECT * FROM people where id = 1
+    FIND : SELECT * FROM people where id = 1s
     
     val result = PStatement(FIND)
       .setLong(id)
