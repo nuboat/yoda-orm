@@ -2,7 +2,7 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "4.0.1"
+version := "4.0.5"
 
 scalaVersion := "2.13.0"
 
@@ -13,6 +13,8 @@ scalacOptions := Seq("-feature", "-deprecation", "-unchecked", "-Xlint"
   , "-Ywarn-numeric-widen"
   , "-Ywarn-value-discard"
   , "-Ywarn-unused")
+
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-encoding", "UTF-8", "-g:none")
 
 libraryDependencies ++= Seq(
   "com.zaxxer" % "HikariCP" % "3.3.1"

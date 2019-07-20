@@ -22,9 +22,8 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
   tempateSQL.setData(runtimeServices.parse(new StringReader(StandardTemplate.jdbc), StandardTemplate.name))
   tempateSQL.initDocument()
 
-  def gen[A: TypeTag](table: String, idName: String, idType: String
-                      , packageName: String = "in.norbor.yoda.orm.generated")
-                     (implicit target: String): Unit = {
+  def gen[A: TypeTag](table: String, idName: String, idType: String)
+                     (implicit target: Target): Unit = {
     val symbol = typeOf[A].typeSymbol
     val entityFullName = symbol.fullName
     val entityName = symbol.toString.stripPrefix("class ")
@@ -32,7 +31,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     val keys = ColumnParser.colNames[A]
 
     val context = new VelocityContext()
-    context.put("packageName", packageName)
+    context.put("packageName", target.packageName)
     context.put("entityName", entityName)
     context.put("entityFullName", entityFullName)
     context.put("simpleNameGenerated", className)
@@ -47,7 +46,9 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     context.put("insertParams", bindInsert(keys))
     context.put("updateParams", bindUpdate(keys, idName))
 
-    render(fileName = s"$target/$className.scala", context)
+    val fileName = s"${target.directoryName}/$className.scala"
+    logger.info(s"Save data to $fileName")
+    render(fileName = fileName, context)
   }
 
   private[generator] def bindInsert(keys: List[ColumnMeta]): String = keys

@@ -1,6 +1,6 @@
 package in.norbor.yoda.utilities
 
-import scala.collection.mutable
+//import scala.collection.mutable
 import scala.reflect.runtime.universe._
 
 /**
@@ -16,11 +16,11 @@ object Accessor {
       }.toList.reverse
   }
 
-  def toMap[A](cc: A): Map[String, Any] =
-    cc.getClass.getDeclaredFields.foldLeft(mutable.Map[String, Any]())(
-      (a, f) => {
-        f.setAccessible(true)
-        a.addOne(f.getName -> f.get(cc))
-      }).toMap
+//  def toMap[A](cc: A): Map[String, Any] =
+//    cc.getClass.getDeclaredFields.foldLeft(mutable.Map[String, Any]())(
+//      (a, f) => {
+//        f.setAccessible(true)
+//        a.addOne(f.getName -> f.get(cc))
+//      }).toMap
 
 }

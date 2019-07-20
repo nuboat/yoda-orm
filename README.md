@@ -3,6 +3,7 @@ YODA - ORM
 Simple Scala case class ORM, 
  
 ```Publish Command
+sbt publishM2
 sbt publishSigned
 sbt sonatypeRelease
 ```
