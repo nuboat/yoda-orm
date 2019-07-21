@@ -2,10 +2,10 @@ package in.norbor.yoda.generator
 
 import java.io.{File, FileWriter, StringReader}
 
-import in.norbor.yoda.definitions.NamingConvention.NamingConvention
-import in.norbor.yoda.utilities.{Closer, Naming}
+import in.norbor.yoda.definitions.NamingConvention
 import org.apache.velocity.runtime.RuntimeSingleton
 import org.apache.velocity.{Template, VelocityContext}
+import yoda.utilities.{Closer, Naming}
 
 import scala.reflect.runtime.universe._
 

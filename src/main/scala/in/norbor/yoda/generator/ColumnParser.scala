@@ -1,8 +1,7 @@
 package in.norbor.yoda.generator
 
-import in.norbor.yoda.definitions.NamingConvention._
-import in.norbor.yoda.definitions.{NamingConvention, YodaType}
-import in.norbor.yoda.utilities.{Accessor, Conf, Naming}
+import in.norbor.yoda.definitions.{NamingConvention, SchemaType}
+import yoda.utilities.{Accessor, Conf, Naming}
 
 import scala.collection.mutable
 import scala.reflect.runtime.universe._
@@ -32,7 +31,7 @@ private[generator] object ColumnParser {
   private def parseCols[A: TypeTag](aname: String): List[ColumnMeta] = {
     val list = Accessor.methods[A]
       .map(sym => ColumnMeta(valName = sym.name.toString
-        , schemaType = YodaType.of(sym)
+        , schemaType = SchemaType.of(sym)
         , _schemaName = namingStategy(sym.name.toString)))
 
     cacheCols.put(aname, list)

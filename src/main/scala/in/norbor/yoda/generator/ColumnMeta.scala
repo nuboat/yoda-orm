@@ -1,6 +1,6 @@
 package in.norbor.yoda.generator
 
-import in.norbor.yoda.definitions.YodaType.SchemaType
+import in.norbor.yoda.definitions.SchemaType
 
 /**
   * @author Peerapat A on April 18, 2018

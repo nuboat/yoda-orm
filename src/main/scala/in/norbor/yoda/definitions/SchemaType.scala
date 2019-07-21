@@ -7,8 +7,7 @@ import scala.reflect.runtime.universe._
 /**
   * @author Peerapat A on April 18, 2018
   */
-object YodaType extends Enumeration {
-  type SchemaType = Value
+object SchemaType extends Enumeration {
 
   val Boolean: Value = Value(0)
   val JBoolean: Value = Value(1)

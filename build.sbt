@@ -2,7 +2,7 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "4.0.5"
+version := "4.0.8"
 
 scalaVersion := "2.13.0"
 
@@ -14,12 +14,13 @@ scalacOptions := Seq("-feature", "-deprecation", "-unchecked", "-Xlint"
   , "-Ywarn-value-discard"
   , "-Ywarn-unused")
 
-javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-encoding", "UTF-8", "-g:none")
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-encoding", "UTF-8")
 
 libraryDependencies ++= Seq(
   "com.zaxxer" % "HikariCP" % "3.3.1"
   , "com.typesafe" % "config" % "1.3.4"
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
+  , "in.norbor" %% "yoda-common" % "0.3.0"
   , "joda-time" % "joda-time" % "2.10.2"
   , "org.apache.velocity" % "velocity" % "1.7" % "compile"
 )
