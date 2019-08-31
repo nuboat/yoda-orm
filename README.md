@@ -6,6 +6,11 @@ Simple Scala case class ORM,
 sbt publishM2
 sbt publishSigned
 sbt sonatypeRelease
+sbt "sonatypeRelease innorbor-xxxx"
+
+sbt sonatypeList
+sbt sonatypeClose
+sbt sonatypeDrop
 ```
 
 BTW, This project is completely opensource and feel free to PR
