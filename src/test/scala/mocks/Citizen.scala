@@ -1,6 +1,6 @@
 package mocks
 
-import in.norbor.yoda.annotations.TableSchema
+import yoda.orm.annotations.TableSchema
 
 /**
   * Created by Peerapat A on Mar 22, 2017

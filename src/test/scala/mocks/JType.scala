@@ -1,6 +1,6 @@
 package mocks
 
-import in.norbor.yoda.jtype.{JBoolean, JDouble, JInt, JLong}
+import yoda.orm.jtype._
 
 case class JType(id: JLong
                  , jInt: JInt

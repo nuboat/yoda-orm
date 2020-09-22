@@ -4,6 +4,7 @@ Simple Scala case class ORM,
  
 ```Publish Command
 sbt publishM2
+sbt publishLocal
 sbt publishSigned
 sbt sonatypeRelease
 sbt "sonatypeRelease innorbor-xxxx"
@@ -11,7 +12,7 @@ sbt "sonatypeRelease innorbor-xxxx"
 sbt sonatypeList
 sbt sonatypeClose
 sbt sonatypeDrop
-```
+``
 
 BTW, This project is completely opensource and feel free to PR
 
@@ -83,4 +84,4 @@ For fully documents, Please looking from /src/test/scala
 
 
 
-@ COPYRIGHT IN.NORBOR, 2018
+Copyright (c) 2020. Peerapat Asoktummarungsri <https://www.linkedin.com/in/peerapat>

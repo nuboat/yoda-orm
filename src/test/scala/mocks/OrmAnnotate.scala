@@ -1,7 +1,7 @@
 package mocks
 
-import in.norbor.yoda.annotations.{ColumnSchema, TableSchema}
 import org.joda.time.DateTime
+import yoda.orm.annotations.{ColumnSchema, TableSchema}
 
 /**
   * Created by Peerapat A on Mar 22, 2017
