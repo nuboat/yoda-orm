@@ -59,7 +59,7 @@ private[generator] object StandardTemplate {
       |
       |  protected def verifyName(p: String): Unit = if (!COLUMNS.contains(p)) throw new IllegalArgumentException(s"$p has problem.")
       |
-      |  protected def parse(rs: ResultSet) = $entityName(
+      |  protected def parse(rs: ResultSet): $entityName = $entityName(
       |    $bindResult
       |  )
       |

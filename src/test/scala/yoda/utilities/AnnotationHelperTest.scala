@@ -11,22 +11,22 @@ import yoda.commons.AnnotationHelper
 /**
   * @author Peerapat A on April 22, 2018
   */
-class AnnotationHelperTest extends AnyFunSuite {
+class AnnotationHelperTest extends AnyFunSuite with AnnotationHelper {
 
   test("1. Class Annotations") {
-    val meta = AnnotationHelper.classAnnotations[OrmAnnotate]
+    val meta = classAnnotations[OrmAnnotate]
 
     meta.foreach(println)
   }
 
   test("2. Constructor Annotations") {
-    val meta = AnnotationHelper.constructorAnnotations[OrmAnnotate]
+    val meta = constructorAnnotations[OrmAnnotate]
 
     meta.foreach(println)
   }
 
   test("3. Method Annotations") {
-    val meta = AnnotationHelper.methodAnnotations[OrmAnnotate]
+    val meta = methodAnnotations[OrmAnnotate]
 
     meta.foreach(println)
   }

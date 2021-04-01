@@ -60,7 +60,7 @@ case class PStatement(sql: String)(implicit conn: Connection)
     new Iterator[A] {
       override def hasNext: Boolean = rs.next
 
-      override def next: A = block(rs)
+      override def next(): A = block(rs)
     }.toList
   }
 

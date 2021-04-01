@@ -2,6 +2,7 @@ package yoda.orm.generator
 
 import java.io.{File, FileWriter, StringReader}
 
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.velocity.runtime.RuntimeSingleton
 import org.apache.velocity.{Template, VelocityContext}
 import yoda.commons.{Closer, Naming}
@@ -10,9 +11,11 @@ import yoda.orm.definitions.NamingConvention
 import scala.reflect.runtime.universe._
 
 /**
-  * @author Peerapat A on April 15, 2018
-  */
-case class Generator(namingConvention: NamingConvention) extends Closer {
+ * @author Peerapat A on April 15, 2018
+ */
+case class Generator(namingConvention: NamingConvention) extends LazyLogging
+  with Closer
+  with Naming {
 
   ColumnParser.namingConvention = namingConvention
 
@@ -27,7 +30,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     val symbol = typeOf[A].typeSymbol
     val entityFullName = symbol.fullName
     val entityName = symbol.toString.stripPrefix("class ")
-    val className = s"${Naming.snakecaseToCamel(table)}SQLGenerated"
+    val className = s"${snakecaseToCamel(table)}SQLGenerated"
     val keys = ColumnParser.colNames[A]
 
     val context = new VelocityContext()
@@ -70,7 +73,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
     .replaceFirst(", ", "")
 
   private[generator] def render(fileName: String
-                          , context: VelocityContext): Unit = {
+                                , context: VelocityContext): Unit = {
     closer(newWriter(fileName)) { writer =>
       tempateSQL.merge(context, writer)
     }
@@ -78,7 +81,7 @@ case class Generator(namingConvention: NamingConvention) extends Closer {
 
   private[generator] def newWriter(fileName: String): FileWriter = {
     val file = new File(fileName)
-    file.getParentFile().mkdirs()
+    file.getParentFile.mkdirs
     file.createNewFile
 
     new FileWriter(file)

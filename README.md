@@ -1,7 +1,7 @@
 YODA - ORM
 ==========
 Simple Scala case class ORM, 
- 
+
 ```Publish Command
 sbt publishM2
 sbt publishLocal
@@ -74,8 +74,8 @@ Compare: PreparedStatement and PStatement
 ```
 
 ```Generate Stub
-    val g = Generator()
-    implicit val target: String = "target"
+    val g = Generator(NamingConvention.CamelToSnakecase)
+    implicit val target: Target = Target(target = "app", packages = Array("in", "norbor", "repos", "generated"))
 
     g.gen[Customer](table = "customer", idName = "id", idType = "String")
 ```
@@ -84,4 +84,4 @@ For fully documents, Please looking from /src/test/scala
 
 
 
-Copyright (c) 2020. Peerapat Asoktummarungsri <https://www.linkedin.com/in/peerapat>
+Copyright (C) 2021 Peerapat Asoktummarungsri <https://www.linkedin.com/in/peerapat>

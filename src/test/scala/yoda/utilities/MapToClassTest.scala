@@ -12,12 +12,12 @@ import yoda.commons.MapToClass
 /**
   * Created by Peerapat A on Mar 22, 2017
   */
-class MapToClassTest extends AnyFunSuite {
+class MapToClassTest extends AnyFunSuite with MapToClass {
 
   test("""1) Map is key-value the same as constructor params.""") {
     val map = Map[String, Any]("id" -> 1L, "name" -> "Peerapat", "born" -> DateTime.now)
 
-    val people = MapToClass[People](map)
+    val people = mapToC[People](map)
 
     assert(people.id === 1L)
     assert(people.name === "Peerapat")
@@ -27,7 +27,7 @@ class MapToClassTest extends AnyFunSuite {
   test("""2)  Map is key->value more than constructor params.""") {
     val map = Map[String, Any]("id" -> 1L, "name" -> "Peerapat", "born" -> DateTime.now, "gender" -> "M")
 
-    val people = MapToClass[People](map)
+    val people = mapToC[People](map)
 
     assert(people.id === 1L)
     assert(people.name === "Peerapat")
@@ -37,7 +37,7 @@ class MapToClassTest extends AnyFunSuite {
   test("""3)  Map is key->value less than constructor params.""") {
     val map = Map[String, Any]("id" -> 1L, "name" -> "Peerapat")
 
-    val people = MapToClass[People](map)
+    val people = mapToC[People](map)
 
     assert(people.id === 1L)
     assert(people.name === "Peerapat")
