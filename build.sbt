@@ -2,7 +2,7 @@ organization := "in.norbor"
 
 name := "yoda-orm"
 
-version := "5.0.1"
+version := "5.1.0"
 
 scalaVersion := "2.13.5"
 
@@ -13,7 +13,6 @@ javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-encoding", "UTF-8")
 
 libraryDependencies ++= Seq(
   "in.norbor" %% "yoda-common" % "1.0.1"
-
   , "com.zaxxer" % "HikariCP" % "4.0.3" % Compile
   , "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2" % Compile
   , "javax.inject" % "javax.inject" % "1" % Compile
