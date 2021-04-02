@@ -25,7 +25,7 @@ case class Generator(namingConvention: NamingConvention) extends LazyLogging
   tempateSQL.setData(runtimeServices.parse(new StringReader(StandardTemplate.jdbc), StandardTemplate.name))
   tempateSQL.initDocument()
 
-  def gen[A: TypeTag](table: String, pks: Seq[(String, String)])
+  def gen[A: TypeTag](table: String, pks: Seq[String])
                      (implicit target: Target): Unit = {
     val symbol = typeOf[A].typeSymbol
     val entityFullName = symbol.fullName
@@ -45,8 +45,8 @@ case class Generator(namingConvention: NamingConvention) extends LazyLogging
     context.put("updateStatement", updateStatement(table, pks, columns))
     context.put("bindResult", bindResult(columns))
     context.put("insertParams", bindInsert(columns))
-    context.put("setPkparams", setPkparams(pks))
-    context.put("pkParams", pkParams(pks))
+    context.put("setPkparams", setPkparams(columns, pks))
+    context.put("pkParams", pkParams(columns, pks))
     context.put("updateParams", bindUpdate(columns, pks))
 
     val fileName = s"${target.directoryName}/$className.scala"
@@ -54,30 +54,31 @@ case class Generator(namingConvention: NamingConvention) extends LazyLogging
     render(fileName = fileName, context)
   }
 
-  private[generator] def pkCondition(pks: Seq[(String, String)]): String = pks
-    .map(t => s"${t._1} = ?")
+  private[generator] def pkCondition(pks: Seq[String]): String = pks
+    .map(pk => s"$pk = ?")
     .mkString(" AND ")
 
-  private[generator] def pkParams(pks: Seq[(String, String)]): String = pks
-    .map(t => s"${t._1}: ${t._2}")
+  private[generator] def pkParams(columns: List[ColumnMeta], pks: Seq[String]): String = pks
+    .map(pk => s"${colMeta(columns, pk).valName}: ${colMeta(columns, pk).schemaType}")
     .mkString(", ")
 
-  private[generator] def setPkparams(pks: Seq[(String, String)]): String = pks
-    .map(t => s".set${t._2}(e.${t._1})")
+  private[generator] def setPkparams(columns: List[ColumnMeta], pks: Seq[ String]): String = pks
+    .map(pk => s".set${colMeta(columns,pk).schemaType}(${colMeta(columns,pk).valName})")
     .mkString("\n    ")
 
   private[generator] def bindInsert(columns: List[ColumnMeta]): String = columns
     .map(k => s".set${k.schemaType}(e.${k.valName})")
     .mkString("\n    ")
 
-  private[generator] def bindUpdate(columns: List[ColumnMeta], pks: Seq[(String, String)]): String = columns
-    .filter(k => !pks.map(_._1).contains(k.valName))
+  private[generator] def bindUpdate(columns: List[ColumnMeta], pks: Seq[String]): String = columns
+    .filter(k => !pks.contains(k.schemaName))
     .map(k => s".set${k.schemaType}(e.${k.valName})")
     .mkString("\n    ")
-    .concat(bindUpdateWhere(pks))
+    .concat("\n    ")
+    .concat(bindWherePk(columns, pks))
 
-  private[generator] def bindUpdateWhere(pks: Seq[(String, String)]): String = pks
-    .map(t => s".set${t._2}(e.${t._1})")
+  private[generator] def bindWherePk(columns: List[ColumnMeta], pks: Seq[String]): String = pks
+    .map(pk => s".set${colMeta(columns,pk).schemaType}(e.${colMeta(columns,pk).valName})")
     .mkString("\n    ")
 
   private[generator] def bindResult(keys: List[ColumnMeta]): String = keys
@@ -106,17 +107,21 @@ case class Generator(namingConvention: NamingConvention) extends LazyLogging
 
   private[generator] def insertStatement(table: String
                                          , keys: List[ColumnMeta]): String =
-    s"""INSERT INTO $table (${keys.map(_.valName).mkString(", ")}) VALUES (${params(keys.size)})""".stripMargin
+    s"""INSERT INTO $table (${keys.map(_.schemaName).mkString(", ")}) VALUES (${params(keys.size)})""".stripMargin
 
   private[generator] def updateStatement(table: String
-                                         , pks: Seq[(String, String)]
+                                         , pks: Seq[String]
                                          , columns: List[ColumnMeta]): String =
     s"""UPDATE $table SET ${updateValue(columns, pks)} = ? WHERE ${pkCondition(pks)}""".stripMargin
 
-  private[generator] def updateValue(columns: List[ColumnMeta], pks: Seq[(String, String)]): String = columns
-    .filter(k => !pks.map(_._1).contains(k.valName))
+  private[generator] def updateValue(columns: List[ColumnMeta], pks: Seq[String]): String = columns
+    .filter(k => !pks.contains(k.schemaName))
     .map(_.schemaName)
     .mkString(" = ?, ")
+
+  private[generator] def colMeta(columns: List[ColumnMeta], pk: String): ColumnMeta = {
+    columns.find(_.schemaName == pk).get
+  }
 
   private[generator] def params(count: Int): String = List.fill(count)("?")
     .mkString(", ")
